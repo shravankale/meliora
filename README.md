@@ -8,6 +8,7 @@ LLVM9, CMake3.1+, networkx>=2, pynauty
 The framework is majorly composed of metric extraction and graph learning components (based on [PSCN](https://github.com/tvayer/PSCN)).
 
 ### Metric generation component
+
 ```
     $ cd datagen
 	$ mkdir build 
@@ -29,7 +30,7 @@ No additional step required. Users can choose to use the pynauty provided with t
 ## Train the model
 To train the model with provided data:
 ```
-python3 modelgen/train_model.py -l data/data1/labels_train.txt data/data1/train_input2/ -o [specify the path for save the model, optional. default will be current location]
+python3 modelgen/train_model.py -l data/data1/labels_train.txt data/data1/train_input2/ -o [specify the path for saving the model, optional. default will be current location]
 ```
 
 ## Prediction (matching)
