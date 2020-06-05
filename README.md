@@ -11,10 +11,10 @@ The framework is majorly composed of metric extraction and graph learning compon
 
 ```
     $ cd datagen
-	$ mkdir build 
-	$ cd build
-	$ cmake ..
-	$ make
+    $ mkdir build
+    $ cd build
+    $ cmake ..
+    $ make
 ```
 
 ### Graph learning component
