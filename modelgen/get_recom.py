@@ -64,12 +64,17 @@ def gen_stats(pred, expected, train_labels, input_graph, validate_labels):
                 incorrect_test[expected_label].append((input_graph[i].name, result[0][1]))
          
     with open('stats.out', 'w') as out:
-        '''
+        
         for k, v in non_train_counts.items():
+           '''
            top_pred = Counter(l[1] for l in non_train_test[k]).most_common(3)
            out.write('{0} has {1} tests. {2:4.2f}% predicts as {3}, {4:4.2f}% as {5}, {6:4.2f}% as {7}\n'.format(k, v, top_pred[0][1]/v*100, top_pred[0][0], top_pred[1][1]/v*100, top_pred[1][0], top_pred[2][1]/v*100, top_pred[2][0]))
+           '''
+           top_pred = Counter(l[1] for l in non_train_test[k]).most_common(1)
+           
+            
         print("-----------------------\n")
-        '''
+        
 
         for k, v in test_counts.items():
             incorrect_size = len(incorrect_test[k])
@@ -120,7 +125,23 @@ if __name__ == "__main__":
     # train labels may be a subset of validate labels
     validate_labels = load_labels(validate_label_path) 
 
-    pscn = PSCN(w=25, k=10, epochs=20, multiclass=len(train_labels), batch_size=32, verbose=2, attr_dim=10, dummy_value=np.repeat(0,10), has_model=True, model_path=model_path)
+    pscn = PSCN(w=25, k=10, epochs=20, gpu=True, multiclass=len(train_labels), batch_size=32, verbose=2, attr_dim=11, dummy_value=np.repeat(0,11), has_model=True, model_path=model_path)
     preds = pscn.predict(X)
     write_csv(output_path, preds, train_labels, X)
     gen_stats(preds, y, train_labels, X, validate_labels)
+
+    '''
+    # print to table
+    for i in range(len(preds)):
+    #p_label = labels[preds[i].argmax()]
+    #print (X[i].name,' Predicted label: ', p_label)
+        print (X[i].name)
+        result = list(zip(preds[i],labels))
+        t = PrettyTable(['class', 'possibility'])
+        result.sort(key=lambda tup: tup[0], reverse=True)
+        for j in result:
+            t.add_row([j[1], j[0]])
+        print (t)
+        print ()
+    '''
+    

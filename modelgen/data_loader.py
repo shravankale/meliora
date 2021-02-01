@@ -134,7 +134,7 @@ def all_connected(X):
 
 
 # cfg
-def build_CFG_dataset(path,type_attr='label'):
+def build_CFG_dataset(path,type_attr='real'):
     graphs=graph_label_list(path,'CFG_graph_labels.txt')
     ids=graph_id(path, 'CFG_graph_id.txt')
     if type_attr=='label':

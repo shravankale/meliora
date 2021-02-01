@@ -55,6 +55,7 @@ if __name__ == "__main__":
     cfg_dataset=load_local_data(args.input_data)
     X,y=zip(*cfg_dataset)
     print ('Total graphs: ', len(X))
-    pscn=PSCN(w=25,k=10,epochs=50,gpu=True,multiclass=len(labels),batch_size=32,verbose=2,attr_dim=10,dummy_value=np.repeat(0,10), model_path=model_path)
+    pscn=PSCN(w=25,k=10,epochs=50,gpu=True,multiclass=len(labels),batch_size=32,verbose=2,attr_dim=11,dummy_value=np.repeat(0,11), model_path=model_path)
+    #X_train, X_test, y_train, y_test=train_test_split(X,y,test_size=0.3, random_state=42)
     pscn.fit(X,y)
     pscn.save(model_path)
