@@ -1,0 +1,1524 @@
+
+====== START ORIO ======
+
+----- begin reading the source file: axpy5.c -----
+----- finished reading the source file -----
+
+----- begin parsing annotations -----
+----- finished parsing annotations -----
+
+----- begin optimizations -----
+Search_Space         = 4.000e+01
+Number_of_Parameters = 02
+Numeric_Parameters   = 02
+Binary_Parameters    = 00
+['UF', 'CFLAGS']
+[[1, 2, 3, 4, 5, 6, 7, 8, 9, 10], ['-O0', '-O1', '-O2', '-O3']]
+
+----- begin empirical tuning for problem size -----
+ N = 1000000
+
+----- begin exhaustive search -----
+Code stats:
+        Number of loops: 	1
+        Max loop nest depth: 	1
+        Additions: 		7
+        Multiplications: 	5
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			24
+        Writes: 		3
+        Comparisons:		1
+        Gotos: 			0
+        
+digraph CFG {
+	146 [label="146  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	146 -> _JOIN_147;
+	_JOIN_147 [label="_JOIN_147None...",shape=box];
+	95 [label="95  int i;...",shape=box];
+	95 -> ForLoop147;
+	ForLoop147 [label="ForLoop147  for (i=0; i<=n-1; i=i+1) ...",shape=box];
+	ForLoop147 -> 146;
+	ForLoop147 -> _JOIN_147;
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 95;
+
+}
+
+ building the original code:
+	gcc  -DORIO_REPS=5 -DORIGINAL -o __orio_perftest_original.exe __orio_perftest1.c timer_cpu.o 
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest1.exe __orio_perftest1.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest1.exe  
+coordinate: [0, 0], average cost: 0.006874395, all costs: [0.00695838, 0.00698718, 0.00689501, 0.00681816, 0.00679723], average transfer time: inf
+>>>> best coordinate found: [0, 0], average cost: 6.874395e-03, average transfer time: inf
+Code stats:
+        Number of loops: 	2
+        Max loop nest depth: 	1
+        Additions: 		29
+        Multiplications: 	15
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			69
+        Writes: 		7
+        Comparisons:		2
+        Gotos: 			0
+        
+digraph CFG {
+	679 [label="679  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	679 -> _JOIN_680;
+	ForLoop680 [label="ForLoop680  for (i=n-((n-(0))%2); i<=n-1; i=i+1) ...",shape=box];
+	ForLoop680 -> 679;
+	ForLoop680 -> _JOIN_680;
+	_JOIN_680 [label="_JOIN_680None...",shape=box];
+	518 [label="518  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	_JOIN_579 [label="_JOIN_579None...",shape=box];
+	_JOIN_579 -> ForLoop680;
+	ForLoop579 [label="ForLoop579  for (i=0; i<=n-2; i=i+2) {...",shape=box];
+	ForLoop579 -> 518;
+	ForLoop579 -> _JOIN_579;
+	248 [label="248  int i;...",shape=box];
+	248 -> ForLoop579;
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 248;
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest2.exe __orio_perftest2.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest2.exe  
+coordinate: [1, 0], average cost: 0.0073204525, all costs: [0.00740653, 0.00742441, 0.00732687, 0.00729023, 0.0072403], average transfer time: inf
+Code stats:
+        Number of loops: 	2
+        Max loop nest depth: 	1
+        Additions: 		41
+        Multiplications: 	20
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			88
+        Writes: 		8
+        Comparisons:		2
+        Gotos: 			0
+        
+digraph CFG {
+	785 [label="785  int i;...",shape=box];
+	785 -> ForLoop1272;
+	ForLoop1373 [label="ForLoop1373  for (i=n-((n-(0))%3); i<=n-1; i=i+1) ...",shape=box];
+	ForLoop1373 -> 1372;
+	ForLoop1373 -> _JOIN_1373;
+	1152 [label="1152  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	_JOIN_1272 [label="_JOIN_1272None...",shape=box];
+	_JOIN_1272 -> ForLoop1373;
+	1372 [label="1372  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	1372 -> _JOIN_1373;
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 785;
+	_JOIN_1373 [label="_JOIN_1373None...",shape=box];
+	ForLoop1272 [label="ForLoop1272  for (i=0; i<=n-3; i=i+3) {...",shape=box];
+	ForLoop1272 -> 1152;
+	ForLoop1272 -> _JOIN_1272;
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest3.exe __orio_perftest3.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest3.exe  
+coordinate: [2, 0], average cost: 0.006088985, all costs: [0.00621925, 0.00615061, 0.00608341, 0.00607417, 0.00604775], average transfer time: inf
+>>>> best coordinate found: [2, 0], average cost: 6.088985e-03, average transfer time: inf
+Code stats:
+        Number of loops: 	2
+        Max loop nest depth: 	1
+        Additions: 		53
+        Multiplications: 	25
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			107
+        Writes: 		9
+        Comparisons:		2
+        Gotos: 			0
+        
+digraph CFG {
+	ForLoop2121 [label="ForLoop2121  for (i=0; i<=n-4; i=i+4) {...",shape=box];
+	ForLoop2121 -> 1942;
+	ForLoop2121 -> _JOIN_2121;
+	_JOIN_2121 [label="_JOIN_2121None...",shape=box];
+	_JOIN_2121 -> ForLoop2222;
+	1942 [label="1942  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	ForLoop2222 [label="ForLoop2222  for (i=n-((n-(0))%4); i<=n-1; i=i+1) ...",shape=box];
+	ForLoop2222 -> 2221;
+	ForLoop2222 -> _JOIN_2222;
+	2221 [label="2221  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	2221 -> _JOIN_2222;
+	1478 [label="1478  int i;...",shape=box];
+	1478 -> ForLoop2121;
+	_JOIN_2222 [label="_JOIN_2222None...",shape=box];
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 1478;
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest4.exe __orio_perftest4.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest4.exe  
+coordinate: [3, 0], average cost: 0.0059429725, all costs: [0.00589412, 0.00599575, 0.00596142, 0.00594857, 0.00586615], average transfer time: inf
+>>>> best coordinate found: [3, 0], average cost: 5.942973e-03, average transfer time: inf
+Code stats:
+        Number of loops: 	2
+        Max loop nest depth: 	1
+        Additions: 		65
+        Multiplications: 	30
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			126
+        Writes: 		10
+        Comparisons:		2
+        Gotos: 			0
+        
+digraph CFG {
+	2327 [label="2327  int i;...",shape=box];
+	2327 -> ForLoop3126;
+	_JOIN_3227 [label="_JOIN_3227None...",shape=box];
+	2888 [label="2888  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	3226 [label="3226  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	3226 -> _JOIN_3227;
+	ForLoop3126 [label="ForLoop3126  for (i=0; i<=n-5; i=i+5) {...",shape=box];
+	ForLoop3126 -> 2888;
+	ForLoop3126 -> _JOIN_3126;
+	_JOIN_3126 [label="_JOIN_3126None...",shape=box];
+	_JOIN_3126 -> ForLoop3227;
+	ForLoop3227 [label="ForLoop3227  for (i=n-((n-(0))%5); i<=n-1; i=i+1) ...",shape=box];
+	ForLoop3227 -> 3226;
+	ForLoop3227 -> _JOIN_3227;
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 2327;
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest5.exe __orio_perftest5.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest5.exe  
+coordinate: [4, 0], average cost: 0.0074521875, all costs: [0.0078135, 0.00765428, 0.00745839, 0.00739956, 0.00729652], average transfer time: inf
+Code stats:
+        Number of loops: 	2
+        Max loop nest depth: 	1
+        Additions: 		77
+        Multiplications: 	35
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			145
+        Writes: 		11
+        Comparisons:		2
+        Gotos: 			0
+        
+digraph CFG {
+	_JOIN_4388 [label="_JOIN_4388None...",shape=box];
+	ForLoop4388 [label="ForLoop4388  for (i=n-((n-(0))%6); i<=n-1; i=i+1) ...",shape=box];
+	ForLoop4388 -> 4387;
+	ForLoop4388 -> _JOIN_4388;
+	4387 [label="4387  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	4387 -> _JOIN_4388;
+	_JOIN_4287 [label="_JOIN_4287None...",shape=box];
+	_JOIN_4287 -> ForLoop4388;
+	3332 [label="3332  int i;...",shape=box];
+	3332 -> ForLoop4287;
+	ForLoop4287 [label="ForLoop4287  for (i=0; i<=n-6; i=i+6) {...",shape=box];
+	ForLoop4287 -> 3990;
+	ForLoop4287 -> _JOIN_4287;
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 3332;
+	3990 [label="3990  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest6.exe __orio_perftest6.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest6.exe  
+coordinate: [5, 0], average cost: 0.006056325, all costs: [0.00617711, 0.00614419, 0.0061005, 0.00601759, 0.00596302], average transfer time: inf
+Code stats:
+        Number of loops: 	2
+        Max loop nest depth: 	1
+        Additions: 		89
+        Multiplications: 	40
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			164
+        Writes: 		12
+        Comparisons:		2
+        Gotos: 			0
+        
+digraph CFG {
+	ForLoop5705 [label="ForLoop5705  for (i=n-((n-(0))%7); i<=n-1; i=i+1) ...",shape=box];
+	ForLoop5705 -> 5704;
+	ForLoop5705 -> _JOIN_5705;
+	5248 [label="5248  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	5704 [label="5704  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	5704 -> _JOIN_5705;
+	ForLoop5604 [label="ForLoop5604  for (i=0; i<=n-7; i=i+7) {...",shape=box];
+	ForLoop5604 -> 5248;
+	ForLoop5604 -> _JOIN_5604;
+	4493 [label="4493  int i;...",shape=box];
+	4493 -> ForLoop5604;
+	_JOIN_5604 [label="_JOIN_5604None...",shape=box];
+	_JOIN_5604 -> ForLoop5705;
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 4493;
+	_JOIN_5705 [label="_JOIN_5705None...",shape=box];
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest7.exe __orio_perftest7.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest7.exe  
+coordinate: [6, 0], average cost: 0.0060469925, all costs: [0.00596147, 0.0060714, 0.0060452, 0.00605952, 0.00601185], average transfer time: inf
+Code stats:
+        Number of loops: 	2
+        Max loop nest depth: 	1
+        Additions: 		101
+        Multiplications: 	45
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			183
+        Writes: 		13
+        Comparisons:		2
+        Gotos: 			0
+        
+digraph CFG {
+	ForLoop7077 [label="ForLoop7077  for (i=0; i<=n-8; i=i+8) {...",shape=box];
+	ForLoop7077 -> 6662;
+	ForLoop7077 -> _JOIN_7077;
+	ForLoop7178 [label="ForLoop7178  for (i=n-((n-(0))%8); i<=n-1; i=i+1) ...",shape=box];
+	ForLoop7178 -> 7177;
+	ForLoop7178 -> _JOIN_7178;
+	6662 [label="6662  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	_JOIN_7077 [label="_JOIN_7077None...",shape=box];
+	_JOIN_7077 -> ForLoop7178;
+	_JOIN_7178 [label="_JOIN_7178None...",shape=box];
+	7177 [label="7177  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	7177 -> _JOIN_7178;
+	5810 [label="5810  int i;...",shape=box];
+	5810 -> ForLoop7077;
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 5810;
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest8.exe __orio_perftest8.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest8.exe  
+coordinate: [7, 0], average cost: 0.0064296175, all costs: [0.00640665, 0.00645364, 0.00647976, 0.00641623, 0.00636884], average transfer time: inf
+Code stats:
+        Number of loops: 	2
+        Max loop nest depth: 	1
+        Additions: 		113
+        Multiplications: 	50
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			202
+        Writes: 		14
+        Comparisons:		2
+        Gotos: 			0
+        
+digraph CFG {
+	7283 [label="7283  int i;...",shape=box];
+	7283 -> ForLoop8706;
+	8232 [label="8232  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	_JOIN_8807 [label="_JOIN_8807None...",shape=box];
+	8806 [label="8806  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	8806 -> _JOIN_8807;
+	_JOIN_8706 [label="_JOIN_8706None...",shape=box];
+	_JOIN_8706 -> ForLoop8807;
+	ForLoop8807 [label="ForLoop8807  for (i=n-((n-(0))%9); i<=n-1; i=i+1) ...",shape=box];
+	ForLoop8807 -> 8806;
+	ForLoop8807 -> _JOIN_8807;
+	ForLoop8706 [label="ForLoop8706  for (i=0; i<=n-9; i=i+9) {...",shape=box];
+	ForLoop8706 -> 8232;
+	ForLoop8706 -> _JOIN_8706;
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 7283;
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest9.exe __orio_perftest9.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest9.exe  
+coordinate: [8, 0], average cost: 0.0060981875, all costs: [0.00604671, 0.00610035, 0.0060928, 0.00609339, 0.00610621], average transfer time: inf
+Code stats:
+        Number of loops: 	2
+        Max loop nest depth: 	1
+        Additions: 		125
+        Multiplications: 	55
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			221
+        Writes: 		15
+        Comparisons:		2
+        Gotos: 			0
+        
+digraph CFG {
+	ForLoop10592 [label="ForLoop10592  for (i=n-((n-(0))%10); i<=n-1; i=i+1) ...",shape=box];
+	ForLoop10592 -> 10591;
+	ForLoop10592 -> _JOIN_10592;
+	8912 [label="8912  int i;...",shape=box];
+	8912 -> ForLoop10491;
+	10591 [label="10591  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	10591 -> _JOIN_10592;
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 8912;
+	ForLoop10491 [label="ForLoop10491  for (i=0; i<=n-10; i=i+10) {...",shape=box];
+	ForLoop10491 -> 9958;
+	ForLoop10491 -> _JOIN_10491;
+	_JOIN_10592 [label="_JOIN_10592None...",shape=box];
+	_JOIN_10491 [label="_JOIN_10491None...",shape=box];
+	_JOIN_10491 -> ForLoop10592;
+	9958 [label="9958  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest10.exe __orio_perftest10.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest10.exe  
+coordinate: [9, 0], average cost: 0.0065859225, all costs: [0.00642544, 0.00661059, 0.00663136, 0.00657372, 0.00652802], average transfer time: inf
+Code stats:
+        Number of loops: 	1
+        Max loop nest depth: 	1
+        Additions: 		7
+        Multiplications: 	5
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			24
+        Writes: 		3
+        Comparisons:		1
+        Gotos: 			0
+        
+digraph CFG {
+	ForLoop10749 [label="ForLoop10749  for (i=0; i<=n-1; i=i+1) ...",shape=box];
+	ForLoop10749 -> 10748;
+	ForLoop10749 -> _JOIN_10749;
+	_JOIN_10749 [label="_JOIN_10749None...",shape=box];
+	10697 [label="10697  int i;...",shape=box];
+	10697 -> ForLoop10749;
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 10697;
+	10748 [label="10748  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	10748 -> _JOIN_10749;
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest11.exe __orio_perftest11.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest11.exe  
+coordinate: [0, 1], average cost: 0.00736069, all costs: [0.00763137, 0.00744746, 0.00736879, 0.00738327, 0.00724324], average transfer time: inf
+Code stats:
+        Number of loops: 	2
+        Max loop nest depth: 	1
+        Additions: 		29
+        Multiplications: 	15
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			69
+        Writes: 		7
+        Comparisons:		2
+        Gotos: 			0
+        
+digraph CFG {
+	ForLoop11181 [label="ForLoop11181  for (i=0; i<=n-2; i=i+2) {...",shape=box];
+	ForLoop11181 -> 11120;
+	ForLoop11181 -> _JOIN_11181;
+	10850 [label="10850  int i;...",shape=box];
+	10850 -> ForLoop11181;
+	_JOIN_11181 [label="_JOIN_11181None...",shape=box];
+	_JOIN_11181 -> ForLoop11282;
+	11120 [label="11120  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	_JOIN_11282 [label="_JOIN_11282None...",shape=box];
+	11281 [label="11281  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	11281 -> _JOIN_11282;
+	ForLoop11282 [label="ForLoop11282  for (i=n-((n-(0))%2); i<=n-1; i=i+1) ...",shape=box];
+	ForLoop11282 -> 11281;
+	ForLoop11282 -> _JOIN_11282;
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 10850;
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest12.exe __orio_perftest12.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest12.exe  
+coordinate: [1, 1], average cost: 0.0059070375, all costs: [0.00584081, 0.00597261, 0.00589633, 0.00590373, 0.00585548], average transfer time: inf
+>>>> best coordinate found: [1, 1], average cost: 5.907038e-03, average transfer time: inf
+Code stats:
+        Number of loops: 	2
+        Max loop nest depth: 	1
+        Additions: 		41
+        Multiplications: 	20
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			88
+        Writes: 		8
+        Comparisons:		2
+        Gotos: 			0
+        
+digraph CFG {
+	11754 [label="11754  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	11387 [label="11387  int i;...",shape=box];
+	11387 -> ForLoop11874;
+	ForLoop11975 [label="ForLoop11975  for (i=n-((n-(0))%3); i<=n-1; i=i+1) ...",shape=box];
+	ForLoop11975 -> 11974;
+	ForLoop11975 -> _JOIN_11975;
+	11974 [label="11974  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	11974 -> _JOIN_11975;
+	_JOIN_11874 [label="_JOIN_11874None...",shape=box];
+	_JOIN_11874 -> ForLoop11975;
+	ForLoop11874 [label="ForLoop11874  for (i=0; i<=n-3; i=i+3) {...",shape=box];
+	ForLoop11874 -> 11754;
+	ForLoop11874 -> _JOIN_11874;
+	_JOIN_11975 [label="_JOIN_11975None...",shape=box];
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 11387;
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest13.exe __orio_perftest13.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest13.exe  
+coordinate: [2, 1], average cost: 0.00658353, all costs: [0.00652693, 0.00659369, 0.00657393, 0.00658032, 0.00658618], average transfer time: inf
+Code stats:
+        Number of loops: 	2
+        Max loop nest depth: 	1
+        Additions: 		53
+        Multiplications: 	25
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			107
+        Writes: 		9
+        Comparisons:		2
+        Gotos: 			0
+        
+digraph CFG {
+	ForLoop12723 [label="ForLoop12723  for (i=0; i<=n-4; i=i+4) {...",shape=box];
+	ForLoop12723 -> 12544;
+	ForLoop12723 -> _JOIN_12723;
+	ForLoop12824 [label="ForLoop12824  for (i=n-((n-(0))%4); i<=n-1; i=i+1) ...",shape=box];
+	ForLoop12824 -> 12823;
+	ForLoop12824 -> _JOIN_12824;
+	_JOIN_12824 [label="_JOIN_12824None...",shape=box];
+	_JOIN_12723 [label="_JOIN_12723None...",shape=box];
+	_JOIN_12723 -> ForLoop12824;
+	12544 [label="12544  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	12080 [label="12080  int i;...",shape=box];
+	12080 -> ForLoop12723;
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 12080;
+	12823 [label="12823  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	12823 -> _JOIN_12824;
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest14.exe __orio_perftest14.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest14.exe  
+coordinate: [3, 1], average cost: 0.00663866, all costs: [0.00650245, 0.00668522, 0.00667408, 0.0066071, 0.00658824], average transfer time: inf
+Code stats:
+        Number of loops: 	2
+        Max loop nest depth: 	1
+        Additions: 		65
+        Multiplications: 	30
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			126
+        Writes: 		10
+        Comparisons:		2
+        Gotos: 			0
+        
+digraph CFG {
+	_JOIN_13728 [label="_JOIN_13728None...",shape=box];
+	_JOIN_13728 -> ForLoop13829;
+	ForLoop13829 [label="ForLoop13829  for (i=n-((n-(0))%5); i<=n-1; i=i+1) ...",shape=box];
+	ForLoop13829 -> 13828;
+	ForLoop13829 -> _JOIN_13829;
+	12929 [label="12929  int i;...",shape=box];
+	12929 -> ForLoop13728;
+	ForLoop13728 [label="ForLoop13728  for (i=0; i<=n-5; i=i+5) {...",shape=box];
+	ForLoop13728 -> 13490;
+	ForLoop13728 -> _JOIN_13728;
+	13828 [label="13828  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	13828 -> _JOIN_13829;
+	13490 [label="13490  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	_JOIN_13829 [label="_JOIN_13829None...",shape=box];
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 12929;
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest15.exe __orio_perftest15.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest15.exe  
+coordinate: [4, 1], average cost: 0.0070472425, all costs: [0.00726705, 0.007235, 0.00704502, 0.00696882, 0.00694013], average transfer time: inf
+Code stats:
+        Number of loops: 	2
+        Max loop nest depth: 	1
+        Additions: 		77
+        Multiplications: 	35
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			145
+        Writes: 		11
+        Comparisons:		2
+        Gotos: 			0
+        
+digraph CFG {
+	ForLoop14990 [label="ForLoop14990  for (i=n-((n-(0))%6); i<=n-1; i=i+1) ...",shape=box];
+	ForLoop14990 -> 14989;
+	ForLoop14990 -> _JOIN_14990;
+	14989 [label="14989  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	14989 -> _JOIN_14990;
+	ForLoop14889 [label="ForLoop14889  for (i=0; i<=n-6; i=i+6) {...",shape=box];
+	ForLoop14889 -> 14592;
+	ForLoop14889 -> _JOIN_14889;
+	_JOIN_14889 [label="_JOIN_14889None...",shape=box];
+	_JOIN_14889 -> ForLoop14990;
+	13934 [label="13934  int i;...",shape=box];
+	13934 -> ForLoop14889;
+	_JOIN_14990 [label="_JOIN_14990None...",shape=box];
+	14592 [label="14592  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 13934;
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest16.exe __orio_perftest16.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest16.exe  
+coordinate: [5, 1], average cost: 0.0061468725, all costs: [0.00650243, 0.0065585, 0.00627975, 0.00589304, 0.0058562], average transfer time: inf
+Code stats:
+        Number of loops: 	2
+        Max loop nest depth: 	1
+        Additions: 		89
+        Multiplications: 	40
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			164
+        Writes: 		12
+        Comparisons:		2
+        Gotos: 			0
+        
+digraph CFG {
+	_JOIN_16206 [label="_JOIN_16206None...",shape=box];
+	_JOIN_16206 -> ForLoop16307;
+	_JOIN_16307 [label="_JOIN_16307None...",shape=box];
+	15095 [label="15095  int i;...",shape=box];
+	15095 -> ForLoop16206;
+	ForLoop16307 [label="ForLoop16307  for (i=n-((n-(0))%7); i<=n-1; i=i+1) ...",shape=box];
+	ForLoop16307 -> 16306;
+	ForLoop16307 -> _JOIN_16307;
+	15850 [label="15850  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	ForLoop16206 [label="ForLoop16206  for (i=0; i<=n-7; i=i+7) {...",shape=box];
+	ForLoop16206 -> 15850;
+	ForLoop16206 -> _JOIN_16206;
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 15095;
+	16306 [label="16306  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	16306 -> _JOIN_16307;
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest17.exe __orio_perftest17.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest17.exe  
+coordinate: [6, 1], average cost: 0.0061741825, all costs: [0.00618898, 0.00623508, 0.00616028, 0.00621431, 0.00608706], average transfer time: inf
+Code stats:
+        Number of loops: 	2
+        Max loop nest depth: 	1
+        Additions: 		101
+        Multiplications: 	45
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			183
+        Writes: 		13
+        Comparisons:		2
+        Gotos: 			0
+        
+digraph CFG {
+	ForLoop17780 [label="ForLoop17780  for (i=n-((n-(0))%8); i<=n-1; i=i+1) ...",shape=box];
+	ForLoop17780 -> 17779;
+	ForLoop17780 -> _JOIN_17780;
+	_JOIN_17780 [label="_JOIN_17780None...",shape=box];
+	ForLoop17679 [label="ForLoop17679  for (i=0; i<=n-8; i=i+8) {...",shape=box];
+	ForLoop17679 -> 17264;
+	ForLoop17679 -> _JOIN_17679;
+	17779 [label="17779  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	17779 -> _JOIN_17780;
+	_JOIN_17679 [label="_JOIN_17679None...",shape=box];
+	_JOIN_17679 -> ForLoop17780;
+	17264 [label="17264  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	16412 [label="16412  int i;...",shape=box];
+	16412 -> ForLoop17679;
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 16412;
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest18.exe __orio_perftest18.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest18.exe  
+coordinate: [7, 1], average cost: 0.0059282975, all costs: [0.00603229, 0.00596457, 0.0059459, 0.00592279, 0.00587993], average transfer time: inf
+Code stats:
+        Number of loops: 	2
+        Max loop nest depth: 	1
+        Additions: 		113
+        Multiplications: 	50
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			202
+        Writes: 		14
+        Comparisons:		2
+        Gotos: 			0
+        
+digraph CFG {
+	ForLoop19409 [label="ForLoop19409  for (i=n-((n-(0))%9); i<=n-1; i=i+1) ...",shape=box];
+	ForLoop19409 -> 19408;
+	ForLoop19409 -> _JOIN_19409;
+	ForLoop19308 [label="ForLoop19308  for (i=0; i<=n-9; i=i+9) {...",shape=box];
+	ForLoop19308 -> 18834;
+	ForLoop19308 -> _JOIN_19308;
+	_JOIN_19308 [label="_JOIN_19308None...",shape=box];
+	_JOIN_19308 -> ForLoop19409;
+	_JOIN_19409 [label="_JOIN_19409None...",shape=box];
+	19408 [label="19408  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	19408 -> _JOIN_19409;
+	18834 [label="18834  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	17885 [label="17885  int i;...",shape=box];
+	17885 -> ForLoop19308;
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 17885;
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest19.exe __orio_perftest19.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest19.exe  
+coordinate: [8, 1], average cost: 0.006076875, all costs: [0.0060299, 0.00610088, 0.00602102, 0.00613081, 0.00605479], average transfer time: inf
+Code stats:
+        Number of loops: 	2
+        Max loop nest depth: 	1
+        Additions: 		125
+        Multiplications: 	55
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			221
+        Writes: 		15
+        Comparisons:		2
+        Gotos: 			0
+        
+digraph CFG {
+	19514 [label="19514  int i;...",shape=box];
+	19514 -> ForLoop21093;
+	21193 [label="21193  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	21193 -> _JOIN_21194;
+	_JOIN_21194 [label="_JOIN_21194None...",shape=box];
+	_JOIN_21093 [label="_JOIN_21093None...",shape=box];
+	_JOIN_21093 -> ForLoop21194;
+	ForLoop21194 [label="ForLoop21194  for (i=n-((n-(0))%10); i<=n-1; i=i+1) ...",shape=box];
+	ForLoop21194 -> 21193;
+	ForLoop21194 -> _JOIN_21194;
+	ForLoop21093 [label="ForLoop21093  for (i=0; i<=n-10; i=i+10) {...",shape=box];
+	ForLoop21093 -> 20560;
+	ForLoop21093 -> _JOIN_21093;
+	20560 [label="20560  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 19514;
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest20.exe __orio_perftest20.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest20.exe  
+coordinate: [9, 1], average cost: 0.0065794425, all costs: [0.00661452, 0.00663418, 0.00661604, 0.0065555, 0.00651205], average transfer time: inf
+Code stats:
+        Number of loops: 	1
+        Max loop nest depth: 	1
+        Additions: 		7
+        Multiplications: 	5
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			24
+        Writes: 		3
+        Comparisons:		1
+        Gotos: 			0
+        
+digraph CFG {
+	21299 [label="21299  int i;...",shape=box];
+	21299 -> ForLoop21351;
+	21350 [label="21350  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	21350 -> _JOIN_21351;
+	ForLoop21351 [label="ForLoop21351  for (i=0; i<=n-1; i=i+1) ...",shape=box];
+	ForLoop21351 -> 21350;
+	ForLoop21351 -> _JOIN_21351;
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 21299;
+	_JOIN_21351 [label="_JOIN_21351None...",shape=box];
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest21.exe __orio_perftest21.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest21.exe  
+coordinate: [0, 2], average cost: 0.005503395, all costs: [0.00554652, 0.00551313, 0.00555888, 0.00547594, 0.00546563], average transfer time: inf
+>>>> best coordinate found: [0, 2], average cost: 5.503395e-03, average transfer time: inf
+Code stats:
+        Number of loops: 	2
+        Max loop nest depth: 	1
+        Additions: 		29
+        Multiplications: 	15
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			69
+        Writes: 		7
+        Comparisons:		2
+        Gotos: 			0
+        
+digraph CFG {
+	21883 [label="21883  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	21883 -> _JOIN_21884;
+	ForLoop21783 [label="ForLoop21783  for (i=0; i<=n-2; i=i+2) {...",shape=box];
+	ForLoop21783 -> 21722;
+	ForLoop21783 -> _JOIN_21783;
+	_JOIN_21884 [label="_JOIN_21884None...",shape=box];
+	21722 [label="21722  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	_JOIN_21783 [label="_JOIN_21783None...",shape=box];
+	_JOIN_21783 -> ForLoop21884;
+	ForLoop21884 [label="ForLoop21884  for (i=n-((n-(0))%2); i<=n-1; i=i+1) ...",shape=box];
+	ForLoop21884 -> 21883;
+	ForLoop21884 -> _JOIN_21884;
+	21452 [label="21452  int i;...",shape=box];
+	21452 -> ForLoop21783;
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 21452;
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest22.exe __orio_perftest22.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest22.exe  
+coordinate: [1, 2], average cost: 0.006413685, all costs: [0.00649935, 0.00643358, 0.00647339, 0.00636195, 0.00638582], average transfer time: inf
+Code stats:
+        Number of loops: 	2
+        Max loop nest depth: 	1
+        Additions: 		41
+        Multiplications: 	20
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			88
+        Writes: 		8
+        Comparisons:		2
+        Gotos: 			0
+        
+digraph CFG {
+	_JOIN_22577 [label="_JOIN_22577None...",shape=box];
+	ForLoop22476 [label="ForLoop22476  for (i=0; i<=n-3; i=i+3) {...",shape=box];
+	ForLoop22476 -> 22356;
+	ForLoop22476 -> _JOIN_22476;
+	_JOIN_22476 [label="_JOIN_22476None...",shape=box];
+	_JOIN_22476 -> ForLoop22577;
+	22576 [label="22576  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	22576 -> _JOIN_22577;
+	21989 [label="21989  int i;...",shape=box];
+	21989 -> ForLoop22476;
+	22356 [label="22356  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 21989;
+	ForLoop22577 [label="ForLoop22577  for (i=n-((n-(0))%3); i<=n-1; i=i+1) ...",shape=box];
+	ForLoop22577 -> 22576;
+	ForLoop22577 -> _JOIN_22577;
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest23.exe __orio_perftest23.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest23.exe  
+coordinate: [2, 2], average cost: 0.00642444, all costs: [0.0064708, 0.00639127, 0.00641334, 0.00653286, 0.00636029], average transfer time: inf
+Code stats:
+        Number of loops: 	2
+        Max loop nest depth: 	1
+        Additions: 		53
+        Multiplications: 	25
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			107
+        Writes: 		9
+        Comparisons:		2
+        Gotos: 			0
+        
+digraph CFG {
+	ForLoop23325 [label="ForLoop23325  for (i=0; i<=n-4; i=i+4) {...",shape=box];
+	ForLoop23325 -> 23146;
+	ForLoop23325 -> _JOIN_23325;
+	_JOIN_23325 [label="_JOIN_23325None...",shape=box];
+	_JOIN_23325 -> ForLoop23426;
+	22682 [label="22682  int i;...",shape=box];
+	22682 -> ForLoop23325;
+	23425 [label="23425  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	23425 -> _JOIN_23426;
+	23146 [label="23146  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	ForLoop23426 [label="ForLoop23426  for (i=n-((n-(0))%4); i<=n-1; i=i+1) ...",shape=box];
+	ForLoop23426 -> 23425;
+	ForLoop23426 -> _JOIN_23426;
+	_JOIN_23426 [label="_JOIN_23426None...",shape=box];
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 22682;
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest24.exe __orio_perftest24.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest24.exe  
+coordinate: [3, 2], average cost: 0.00645108, all costs: [0.00642362, 0.00649027, 0.00644706, 0.00642071, 0.00644628], average transfer time: inf
+Code stats:
+        Number of loops: 	2
+        Max loop nest depth: 	1
+        Additions: 		65
+        Multiplications: 	30
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			126
+        Writes: 		10
+        Comparisons:		2
+        Gotos: 			0
+        
+digraph CFG {
+	23531 [label="23531  int i;...",shape=box];
+	23531 -> ForLoop24330;
+	24092 [label="24092  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	_JOIN_24431 [label="_JOIN_24431None...",shape=box];
+	ForLoop24330 [label="ForLoop24330  for (i=0; i<=n-5; i=i+5) {...",shape=box];
+	ForLoop24330 -> 24092;
+	ForLoop24330 -> _JOIN_24330;
+	_JOIN_24330 [label="_JOIN_24330None...",shape=box];
+	_JOIN_24330 -> ForLoop24431;
+	24430 [label="24430  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	24430 -> _JOIN_24431;
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 23531;
+	ForLoop24431 [label="ForLoop24431  for (i=n-((n-(0))%5); i<=n-1; i=i+1) ...",shape=box];
+	ForLoop24431 -> 24430;
+	ForLoop24431 -> _JOIN_24431;
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest25.exe __orio_perftest25.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest25.exe  
+coordinate: [4, 2], average cost: 0.00653502, all costs: [0.00645826, 0.00655154, 0.00650417, 0.00655174, 0.00653263], average transfer time: inf
+Code stats:
+        Number of loops: 	2
+        Max loop nest depth: 	1
+        Additions: 		77
+        Multiplications: 	35
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			145
+        Writes: 		11
+        Comparisons:		2
+        Gotos: 			0
+        
+digraph CFG {
+	25194 [label="25194  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	ForLoop25592 [label="ForLoop25592  for (i=n-((n-(0))%6); i<=n-1; i=i+1) ...",shape=box];
+	ForLoop25592 -> 25591;
+	ForLoop25592 -> _JOIN_25592;
+	24536 [label="24536  int i;...",shape=box];
+	24536 -> ForLoop25491;
+	ForLoop25491 [label="ForLoop25491  for (i=0; i<=n-6; i=i+6) {...",shape=box];
+	ForLoop25491 -> 25194;
+	ForLoop25491 -> _JOIN_25491;
+	25591 [label="25591  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	25591 -> _JOIN_25592;
+	_JOIN_25592 [label="_JOIN_25592None...",shape=box];
+	_JOIN_25491 [label="_JOIN_25491None...",shape=box];
+	_JOIN_25491 -> ForLoop25592;
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 24536;
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest26.exe __orio_perftest26.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest26.exe  
+coordinate: [5, 2], average cost: 0.00662323, all costs: [0.00676919, 0.0066429, 0.00659441, 0.00664481, 0.0066108], average transfer time: inf
+Code stats:
+        Number of loops: 	2
+        Max loop nest depth: 	1
+        Additions: 		89
+        Multiplications: 	40
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			164
+        Writes: 		12
+        Comparisons:		2
+        Gotos: 			0
+        
+digraph CFG {
+	_JOIN_26808 [label="_JOIN_26808None...",shape=box];
+	_JOIN_26808 -> ForLoop26909;
+	26908 [label="26908  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	26908 -> _JOIN_26909;
+	26452 [label="26452  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 25697;
+	ForLoop26909 [label="ForLoop26909  for (i=n-((n-(0))%7); i<=n-1; i=i+1) ...",shape=box];
+	ForLoop26909 -> 26908;
+	ForLoop26909 -> _JOIN_26909;
+	_JOIN_26909 [label="_JOIN_26909None...",shape=box];
+	ForLoop26808 [label="ForLoop26808  for (i=0; i<=n-7; i=i+7) {...",shape=box];
+	ForLoop26808 -> 26452;
+	ForLoop26808 -> _JOIN_26808;
+	25697 [label="25697  int i;...",shape=box];
+	25697 -> ForLoop26808;
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest27.exe __orio_perftest27.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest27.exe  
+coordinate: [6, 2], average cost: 0.0065608, all costs: [0.00665228, 0.00669452, 0.00652414, 0.0065515, 0.00647304], average transfer time: inf
+Code stats:
+        Number of loops: 	2
+        Max loop nest depth: 	1
+        Additions: 		101
+        Multiplications: 	45
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			183
+        Writes: 		13
+        Comparisons:		2
+        Gotos: 			0
+        
+digraph CFG {
+	27866 [label="27866  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	ForLoop28281 [label="ForLoop28281  for (i=0; i<=n-8; i=i+8) {...",shape=box];
+	ForLoop28281 -> 27866;
+	ForLoop28281 -> _JOIN_28281;
+	27014 [label="27014  int i;...",shape=box];
+	27014 -> ForLoop28281;
+	28381 [label="28381  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	28381 -> _JOIN_28382;
+	_JOIN_28281 [label="_JOIN_28281None...",shape=box];
+	_JOIN_28281 -> ForLoop28382;
+	ForLoop28382 [label="ForLoop28382  for (i=n-((n-(0))%8); i<=n-1; i=i+1) ...",shape=box];
+	ForLoop28382 -> 28381;
+	ForLoop28382 -> _JOIN_28382;
+	_JOIN_28382 [label="_JOIN_28382None...",shape=box];
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 27014;
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest28.exe __orio_perftest28.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest28.exe  
+coordinate: [7, 2], average cost: 0.0068006825, all costs: [0.00689071, 0.00687114, 0.00681821, 0.00677258, 0.0067408], average transfer time: inf
+Code stats:
+        Number of loops: 	2
+        Max loop nest depth: 	1
+        Additions: 		113
+        Multiplications: 	50
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			202
+        Writes: 		14
+        Comparisons:		2
+        Gotos: 			0
+        
+digraph CFG {
+	ForLoop30011 [label="ForLoop30011  for (i=n-((n-(0))%9); i<=n-1; i=i+1) ...",shape=box];
+	ForLoop30011 -> 30010;
+	ForLoop30011 -> _JOIN_30011;
+	30010 [label="30010  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	30010 -> _JOIN_30011;
+	_JOIN_29910 [label="_JOIN_29910None...",shape=box];
+	_JOIN_29910 -> ForLoop30011;
+	ForLoop29910 [label="ForLoop29910  for (i=0; i<=n-9; i=i+9) {...",shape=box];
+	ForLoop29910 -> 29436;
+	ForLoop29910 -> _JOIN_29910;
+	28487 [label="28487  int i;...",shape=box];
+	28487 -> ForLoop29910;
+	29436 [label="29436  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	_JOIN_30011 [label="_JOIN_30011None...",shape=box];
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 28487;
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest29.exe __orio_perftest29.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest29.exe  
+coordinate: [8, 2], average cost: 0.006059505, all costs: [0.0060705, 0.00606907, 0.00603807, 0.00603893, 0.00609195], average transfer time: inf
+Code stats:
+        Number of loops: 	2
+        Max loop nest depth: 	1
+        Additions: 		125
+        Multiplications: 	55
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			221
+        Writes: 		15
+        Comparisons:		2
+        Gotos: 			0
+        
+digraph CFG {
+	31795 [label="31795  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	31795 -> _JOIN_31796;
+	31162 [label="31162  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	ForLoop31796 [label="ForLoop31796  for (i=n-((n-(0))%10); i<=n-1; i=i+1) ...",shape=box];
+	ForLoop31796 -> 31795;
+	ForLoop31796 -> _JOIN_31796;
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 30116;
+	_JOIN_31796 [label="_JOIN_31796None...",shape=box];
+	_JOIN_31695 [label="_JOIN_31695None...",shape=box];
+	_JOIN_31695 -> ForLoop31796;
+	30116 [label="30116  int i;...",shape=box];
+	30116 -> ForLoop31695;
+	ForLoop31695 [label="ForLoop31695  for (i=0; i<=n-10; i=i+10) {...",shape=box];
+	ForLoop31695 -> 31162;
+	ForLoop31695 -> _JOIN_31695;
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest30.exe __orio_perftest30.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest30.exe  
+coordinate: [9, 2], average cost: 0.0068334075, all costs: [0.00697292, 0.00686013, 0.00687472, 0.0068488, 0.00674998], average transfer time: inf
+Code stats:
+        Number of loops: 	1
+        Max loop nest depth: 	1
+        Additions: 		7
+        Multiplications: 	5
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			24
+        Writes: 		3
+        Comparisons:		1
+        Gotos: 			0
+        
+digraph CFG {
+	ForLoop31953 [label="ForLoop31953  for (i=0; i<=n-1; i=i+1) ...",shape=box];
+	ForLoop31953 -> 31952;
+	ForLoop31953 -> _JOIN_31953;
+	_JOIN_31953 [label="_JOIN_31953None...",shape=box];
+	31901 [label="31901  int i;...",shape=box];
+	31901 -> ForLoop31953;
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 31901;
+	31952 [label="31952  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	31952 -> _JOIN_31953;
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest31.exe __orio_perftest31.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest31.exe  
+coordinate: [0, 3], average cost: 0.0056403775, all costs: [0.00558753, 0.00573391, 0.00561508, 0.00566498, 0.00554754], average transfer time: inf
+Code stats:
+        Number of loops: 	2
+        Max loop nest depth: 	1
+        Additions: 		29
+        Multiplications: 	15
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			69
+        Writes: 		7
+        Comparisons:		2
+        Gotos: 			0
+        
+digraph CFG {
+	_JOIN_32486 [label="_JOIN_32486None...",shape=box];
+	32054 [label="32054  int i;...",shape=box];
+	32054 -> ForLoop32385;
+	32485 [label="32485  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	32485 -> _JOIN_32486;
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 32054;
+	ForLoop32486 [label="ForLoop32486  for (i=n-((n-(0))%2); i<=n-1; i=i+1) ...",shape=box];
+	ForLoop32486 -> 32485;
+	ForLoop32486 -> _JOIN_32486;
+	ForLoop32385 [label="ForLoop32385  for (i=0; i<=n-2; i=i+2) {...",shape=box];
+	ForLoop32385 -> 32324;
+	ForLoop32385 -> _JOIN_32385;
+	32324 [label="32324  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	_JOIN_32385 [label="_JOIN_32385None...",shape=box];
+	_JOIN_32385 -> ForLoop32486;
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest32.exe __orio_perftest32.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest32.exe  
+coordinate: [1, 3], average cost: 0.0065302375, all costs: [0.00660964, 0.00658837, 0.00653914, 0.00653338, 0.00646006], average transfer time: inf
+Code stats:
+        Number of loops: 	2
+        Max loop nest depth: 	1
+        Additions: 		41
+        Multiplications: 	20
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			88
+        Writes: 		8
+        Comparisons:		2
+        Gotos: 			0
+        
+digraph CFG {
+	_JOIN_33179 [label="_JOIN_33179None...",shape=box];
+	_JOIN_33078 [label="_JOIN_33078None...",shape=box];
+	_JOIN_33078 -> ForLoop33179;
+	32958 [label="32958  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	33178 [label="33178  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	33178 -> _JOIN_33179;
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 32591;
+	ForLoop33179 [label="ForLoop33179  for (i=n-((n-(0))%3); i<=n-1; i=i+1) ...",shape=box];
+	ForLoop33179 -> 33178;
+	ForLoop33179 -> _JOIN_33179;
+	32591 [label="32591  int i;...",shape=box];
+	32591 -> ForLoop33078;
+	ForLoop33078 [label="ForLoop33078  for (i=0; i<=n-3; i=i+3) {...",shape=box];
+	ForLoop33078 -> 32958;
+	ForLoop33078 -> _JOIN_33078;
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest33.exe __orio_perftest33.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest33.exe  
+coordinate: [2, 3], average cost: 0.00637741, all costs: [0.00640876, 0.00646054, 0.00635233, 0.00633157, 0.0063652], average transfer time: inf
+Code stats:
+        Number of loops: 	2
+        Max loop nest depth: 	1
+        Additions: 		53
+        Multiplications: 	25
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			107
+        Writes: 		9
+        Comparisons:		2
+        Gotos: 			0
+        
+digraph CFG {
+	33284 [label="33284  int i;...",shape=box];
+	33284 -> ForLoop33927;
+	ForLoop34028 [label="ForLoop34028  for (i=n-((n-(0))%4); i<=n-1; i=i+1) ...",shape=box];
+	ForLoop34028 -> 34027;
+	ForLoop34028 -> _JOIN_34028;
+	_JOIN_33927 [label="_JOIN_33927None...",shape=box];
+	_JOIN_33927 -> ForLoop34028;
+	33748 [label="33748  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	34027 [label="34027  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	34027 -> _JOIN_34028;
+	ForLoop33927 [label="ForLoop33927  for (i=0; i<=n-4; i=i+4) {...",shape=box];
+	ForLoop33927 -> 33748;
+	ForLoop33927 -> _JOIN_33927;
+	_JOIN_34028 [label="_JOIN_34028None...",shape=box];
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 33284;
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest34.exe __orio_perftest34.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest34.exe  
+coordinate: [3, 3], average cost: 0.006804095, all costs: [0.00681924, 0.00686477, 0.00682691, 0.00678661, 0.00673809], average transfer time: inf
+Code stats:
+        Number of loops: 	2
+        Max loop nest depth: 	1
+        Additions: 		65
+        Multiplications: 	30
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			126
+        Writes: 		10
+        Comparisons:		2
+        Gotos: 			0
+        
+digraph CFG {
+	34133 [label="34133  int i;...",shape=box];
+	34133 -> ForLoop34932;
+	ForLoop34932 [label="ForLoop34932  for (i=0; i<=n-5; i=i+5) {...",shape=box];
+	ForLoop34932 -> 34694;
+	ForLoop34932 -> _JOIN_34932;
+	ForLoop35033 [label="ForLoop35033  for (i=n-((n-(0))%5); i<=n-1; i=i+1) ...",shape=box];
+	ForLoop35033 -> 35032;
+	ForLoop35033 -> _JOIN_35033;
+	34694 [label="34694  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	_JOIN_34932 [label="_JOIN_34932None...",shape=box];
+	_JOIN_34932 -> ForLoop35033;
+	35032 [label="35032  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	35032 -> _JOIN_35033;
+	_JOIN_35033 [label="_JOIN_35033None...",shape=box];
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 34133;
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest35.exe __orio_perftest35.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest35.exe  
+coordinate: [4, 3], average cost: 0.00678213, all costs: [0.00685192, 0.00685231, 0.00681555, 0.00674173, 0.00671893], average transfer time: inf
+Code stats:
+        Number of loops: 	2
+        Max loop nest depth: 	1
+        Additions: 		77
+        Multiplications: 	35
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			145
+        Writes: 		11
+        Comparisons:		2
+        Gotos: 			0
+        
+digraph CFG {
+	_JOIN_36093 [label="_JOIN_36093None...",shape=box];
+	_JOIN_36093 -> ForLoop36194;
+	_JOIN_36194 [label="_JOIN_36194None...",shape=box];
+	36193 [label="36193  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	36193 -> _JOIN_36194;
+	ForLoop36194 [label="ForLoop36194  for (i=n-((n-(0))%6); i<=n-1; i=i+1) ...",shape=box];
+	ForLoop36194 -> 36193;
+	ForLoop36194 -> _JOIN_36194;
+	35796 [label="35796  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	ForLoop36093 [label="ForLoop36093  for (i=0; i<=n-6; i=i+6) {...",shape=box];
+	ForLoop36093 -> 35796;
+	ForLoop36093 -> _JOIN_36093;
+	35138 [label="35138  int i;...",shape=box];
+	35138 -> ForLoop36093;
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 35138;
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest36.exe __orio_perftest36.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest36.exe  
+coordinate: [5, 3], average cost: 0.00674736, all costs: [0.00676583, 0.0068524, 0.00682827, 0.00667646, 0.00663231], average transfer time: inf
+Code stats:
+        Number of loops: 	2
+        Max loop nest depth: 	1
+        Additions: 		89
+        Multiplications: 	40
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			164
+        Writes: 		12
+        Comparisons:		2
+        Gotos: 			0
+        
+digraph CFG {
+	37054 [label="37054  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	ForLoop37511 [label="ForLoop37511  for (i=n-((n-(0))%7); i<=n-1; i=i+1) ...",shape=box];
+	ForLoop37511 -> 37510;
+	ForLoop37511 -> _JOIN_37511;
+	_JOIN_37511 [label="_JOIN_37511None...",shape=box];
+	36299 [label="36299  int i;...",shape=box];
+	36299 -> ForLoop37410;
+	37510 [label="37510  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	37510 -> _JOIN_37511;
+	_JOIN_37410 [label="_JOIN_37410None...",shape=box];
+	_JOIN_37410 -> ForLoop37511;
+	ForLoop37410 [label="ForLoop37410  for (i=0; i<=n-7; i=i+7) {...",shape=box];
+	ForLoop37410 -> 37054;
+	ForLoop37410 -> _JOIN_37410;
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 36299;
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest37.exe __orio_perftest37.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest37.exe  
+coordinate: [6, 3], average cost: 0.0064687025, all costs: [0.00642625, 0.00645069, 0.00643776, 0.00649076, 0.0064956], average transfer time: inf
+Code stats:
+        Number of loops: 	2
+        Max loop nest depth: 	1
+        Additions: 		101
+        Multiplications: 	45
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			183
+        Writes: 		13
+        Comparisons:		2
+        Gotos: 			0
+        
+digraph CFG {
+	ForLoop38883 [label="ForLoop38883  for (i=0; i<=n-8; i=i+8) {...",shape=box];
+	ForLoop38883 -> 38468;
+	ForLoop38883 -> _JOIN_38883;
+	38468 [label="38468  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	_JOIN_38984 [label="_JOIN_38984None...",shape=box];
+	38983 [label="38983  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	38983 -> _JOIN_38984;
+	_JOIN_38883 [label="_JOIN_38883None...",shape=box];
+	_JOIN_38883 -> ForLoop38984;
+	37616 [label="37616  int i;...",shape=box];
+	37616 -> ForLoop38883;
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 37616;
+	ForLoop38984 [label="ForLoop38984  for (i=n-((n-(0))%8); i<=n-1; i=i+1) ...",shape=box];
+	ForLoop38984 -> 38983;
+	ForLoop38984 -> _JOIN_38984;
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest38.exe __orio_perftest38.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest38.exe  
+coordinate: [7, 3], average cost: 0.0059749275, all costs: [0.00618769, 0.00606186, 0.00593304, 0.00595007, 0.00595474], average transfer time: inf
+Code stats:
+        Number of loops: 	2
+        Max loop nest depth: 	1
+        Additions: 		113
+        Multiplications: 	50
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			202
+        Writes: 		14
+        Comparisons:		2
+        Gotos: 			0
+        
+digraph CFG {
+	ForLoop40512 [label="ForLoop40512  for (i=0; i<=n-9; i=i+9) {...",shape=box];
+	ForLoop40512 -> 40038;
+	ForLoop40512 -> _JOIN_40512;
+	40612 [label="40612  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	40612 -> _JOIN_40613;
+	39089 [label="39089  int i;...",shape=box];
+	39089 -> ForLoop40512;
+	ForLoop40613 [label="ForLoop40613  for (i=n-((n-(0))%9); i<=n-1; i=i+1) ...",shape=box];
+	ForLoop40613 -> 40612;
+	ForLoop40613 -> _JOIN_40613;
+	40038 [label="40038  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	_JOIN_40613 [label="_JOIN_40613None...",shape=box];
+	_JOIN_40512 [label="_JOIN_40512None...",shape=box];
+	_JOIN_40512 -> ForLoop40613;
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 39089;
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest39.exe __orio_perftest39.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest39.exe  
+coordinate: [8, 3], average cost: 0.00631542, all costs: [0.00634383, 0.0063653, 0.00634466, 0.00629805, 0.00625367], average transfer time: inf
+Code stats:
+        Number of loops: 	2
+        Max loop nest depth: 	1
+        Additions: 		125
+        Multiplications: 	55
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			221
+        Writes: 		15
+        Comparisons:		2
+        Gotos: 			0
+        
+digraph CFG {
+	41764 [label="41764  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	42397 [label="42397  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	42397 -> _JOIN_42398;
+	40718 [label="40718  int i;...",shape=box];
+	40718 -> ForLoop42297;
+	_JOIN_42398 [label="_JOIN_42398None...",shape=box];
+	ForLoop42297 [label="ForLoop42297  for (i=0; i<=n-10; i=i+10) {...",shape=box];
+	ForLoop42297 -> 41764;
+	ForLoop42297 -> _JOIN_42297;
+	_JOIN_42297 [label="_JOIN_42297None...",shape=box];
+	_JOIN_42297 -> ForLoop42398;
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 40718;
+	ForLoop42398 [label="ForLoop42398  for (i=n-((n-(0))%10); i<=n-1; i=i+1) ...",shape=box];
+	ForLoop42398 -> 42397;
+	ForLoop42398 -> _JOIN_42398;
+
+}
+
+ building test:
+	gcc  -DORIO_REPS=5 -o __orio_perftest40.exe __orio_perftest40.c timer_cpu.o 
+ running test:
+	 ./__orio_perftest40.exe  
+coordinate: [9, 3], average cost: 0.0064729925, all costs: [0.00648812, 0.00645915, 0.006528, 0.00647738, 0.00642744], average transfer time: inf
+----- end exhaustive search -----
+----- begin summary -----
+ best coordinate: [0, 2]={'UF': 1, 'CFLAGS': '-O2'}, cost=5.503395e-03, transfer_time=inf, inputs=[('N', 1000000)], search_time=7.42, runs=0
+----- end summary -----
+----- the obtained best performance parameters -----
+ CFLAGS = -O2
+ UF = 1
+Code stats:
+        Number of loops: 	1
+        Max loop nest depth: 	1
+        Additions: 		7
+        Multiplications: 	5
+        Divisions: 		0
+        Logical: 		0
+        Reads: 			24
+        Writes: 		3
+        Comparisons:		1
+        Gotos: 			0
+        
+digraph CFG {
+	_JOIN_42555 [label="_JOIN_42555None...",shape=box];
+	42503 [label="42503  int i;...",shape=box];
+	42503 -> ForLoop42555;
+	ForLoop42555 [label="ForLoop42555  for (i=0; i<=n-1; i=i+1) ...",shape=box];
+	ForLoop42555 -> 42554;
+	ForLoop42555 -> _JOIN_42555;
+	_TOP_ [label="_TOP_None...",shape=box];
+	_TOP_ -> 42503;
+	42554 [label="42554  y[i]=y[i]+a1*x1[i]+a2*x2[i]+a3*x3[i]+a4*x4[i]+a5*x5[i];...",shape=box];
+	42554 -> _JOIN_42555;
+
+}
+
+----- finish optimizations -----
+
+----- begin writing the output file(s) -----
+--> writing output to: _axpy5.c
+----- finished writing the output file(s) -----
+
+====== END ORIO ======
