@@ -14,7 +14,9 @@ usage: $python3 predAnalyzer.py [csv path]
 '''
 
 def get_label(graph_id):
-    return graph_id[0: graph_id.find('_')-1]
+    #return graph_id[0: graph_id.find('_')-1]
+    # e.g mvt@1
+    return graph_id[0: graph_id.find('_')-1] + graph_id[-3:-1]
 
 def analyzer(csv_path):
     # key: label, value: {label: occurence}
@@ -32,11 +34,10 @@ def analyzer(csv_path):
             # get copy of row without file_id
             copy_row = {k:float(v) for k, v in row.items() if k != 'file_id'}   
             # get pair with max possibility
-            sorted_row = sorted(copy_row.items(), key=lambda kv: kv[1], reverse=True)
-            pred_label = sorted_row[0][0]
+            pred_label, pct = max(copy_row.items(), key=lambda kv: kv[1])
             class_dict[expected_label][pred_label] += 1
-            print ('{0} --> {1}'.format(row['file_id'], pred_label))
-            print (' + {0}'.format(sorted_row))
+            # show prediction for each test case
+            print ('{0} ---> {1}, {2:.2f}'.format(row['file_id'], pred_label, pct))
     
     # print result
     for k, v in counter_dict.items():

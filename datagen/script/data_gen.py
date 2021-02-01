@@ -1,6 +1,7 @@
 import os
 import re
 import sys
+import argparse
 
 '''
 Proccess and generate appropriate data format 
@@ -15,19 +16,32 @@ the new data
 '''
 # TODO try catch block
 
+def parse_commandline():
+    parser = argparse.ArgumentParser(description='Driver for processing the graph data to model training')
+    parser.add_argument('dir', help='path to the folder of the graph data')
+    parser.add_argument('--id', nargs='?', default='loop_0')
+    parser.add_argument('--order', nargs='?', default=0)
+
+    args = parser.parse_args()
+    
+    return args
+
+
 class DataGenerator():
     '''
     The data generator used for parsing the output from llvm pass (Orio postprocess)
     to generate the graph data for further analysis (e.g. embedding, classfication)
     '''
-    def __init__(self, path):
-        # get the current index of node, graph and current graph class 
-        self.node_num, self.graph_num, self.graph_class = self.__read_log()
+    def __init__(self):
+        cmd_args = parse_commandline()
+
         # target directory
-        self.dir_path = path    
+        self.dir_path = cmd_args.dir    
+        # process mode
+        self.loop_id = cmd_args.id
+        self.loop_order = int(cmd_args.order)
         # node label
         self.nl = ['Flop', 'Mem', 'Ctrl', 'Int']
-        self.__get_file_handler()
         
 
     def __read_log(self):
@@ -52,11 +66,36 @@ class DataGenerator():
         with open('state.log', 'w') as f:
             f.write(str(self.node_num) + '\t' + str(self.graph_num) + '\t' + str(self.graph_class))
 
+    def __check_file_name(self, file_name):
+        '''
+        Check whether the file is to process    
+        '''
+        if not file_name.endswith('.matrix'):
+            return False
+
+        # process file name
+        # generated file naming follow:
+        # original_file_name.loop_id@order.matrix
+        fn_str = file_name.split('.')[-2]
+        fn_id, fn_order = fn_str.split('@')
+        if self.loop_id != 'loop_0':
+            # process the file based on loop id
+            if self.loop_id == fn_id:
+                return True
+        elif self.loop_order != 0:
+            # process the file based on loop processing order
+            if self.loop_order == int(fn_order):
+                return True
+
+        return False    
+
             
     def __iter_dir(self):
         # assume test case locates in a/b/c/src/
         # get src name
         src_name = os.path.basename(os.path.normpath(self.dir_path))
+        process_flag = False
+
         for file_name in os.listdir(self.dir_path):
             if file_name.endswith('.temp'):
                 # Temporary workaround for processing splitted loops data
@@ -84,10 +123,7 @@ class DataGenerator():
                     if process_num == 0:
                         break
                     
-                    if sub_name.endswith('.matrix'): 
-                        if skip_num != 0:
-                            skip_num -= 1
-                            continue
+                    if self.__check_file_name(sub_name):
                         # find matrix file
                         # each matrix is a graph
                         target_file = sub_dir+'/'+sub_name
@@ -98,10 +134,12 @@ class DataGenerator():
                             #self.__process_matrix(target_file, test_name+'_'+str(graph_counter))
                             self.__process_matrix(target_file, test_name)
                             self.graph_num += 1
-                            process_num -= 1
+                            process_flag = True
                             #graph_counter += 1
         # iter over all graphs of the same class
-        self.graph_class += 1
+        if process_flag:
+            # at least processed one graph 
+            self.graph_class += 1
 
     def __process_matrix(self, file_path, graph_id=''):
         # parse the .matrix file to get data
@@ -139,7 +177,7 @@ class DataGenerator():
 
                     # ouput node
                     instr_cnt = re.split(r':+', line_value[0])
-                    instr_list = map(int, instr_cnt)
+                    instr_list = map(float, instr_cnt)
                     # decide node label
                     node_label = instr_list.index(max(instr_list))  
                     self.node_label_hdlr.write(str(node_label) + '\n')
@@ -186,12 +224,16 @@ class DataGenerator():
         self.graph_id_hdlr.close()
 
     def generate(self):
+        if self.loop_id=='loop_0' and self.loop_order==0:
+            print ('Missing argument, exit ...')
+            sys.exit()
+        # get the current index of node, graph and current graph class 
+        self.node_num, self.graph_num, self.graph_class = self.__read_log()
+        self.__get_file_handler()
+        # start process
         self.__iter_dir()
         self.__close_file()
         self.__write_log()
 
 if __name__ == "__main__":
-    if len(sys.argv) == 1:
-        print ('Please provide target directory, exit...')
-        sys.exit(0)
-    DataGenerator(sys.argv[1]).generate()
+    DataGenerator().generate()
