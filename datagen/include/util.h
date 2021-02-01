@@ -30,6 +30,7 @@
 #include "llvm/IR/Constants.h"
 #include "llvm/ADT/SCCIterator.h"
 #include "llvm/ADT/StringRef.h"
+#include "llvm/Support/Format.h"
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -236,15 +237,15 @@ string getBaseName(Function& F) {
 	return baseOutName;
 }
 
-// check whether to skip current loop
-// based on loop induction variable
+
+// Get loop induction variable
 // Note the llvm function Loop::getInductionVariable
 // requires the simplified form of loop
 // PhiNode and SCEVAddRecExpr may not work with -O0
 // the workaround here is to get loop condition and 
 // test the load instruction to get induction variable
-bool checkSkip(Loop* l) {
-    bool ret = false;
+string getIdv(Loop* l) {
+    string ret;
     for (BasicBlock::iterator it = l->getHeader()->begin(); it != l->getHeader()->end(); it++) {
         Instruction& ins = *it;
         if (isa<LoadInst>(ins)) {
@@ -252,22 +253,76 @@ bool checkSkip(Loop* l) {
             Value* v = loadIns -> getPointerOperand(); 
             if (v != NULL) {
                 if (!v -> getName().empty()) {
-                    string name = v->getName().str();
-                    // check two pre set variables
-                    if (name == "orio_i" || name == "_t") {
-                        ret = true;
-                        break;
-                    }
+                    ret = v->getName().str();
+                    break;  
                 }
                 
             }
         } 
         
     }
+
+    return ret;
+    
+}
+
+// check whether to skip current loop
+// based on loop induction variable
+// return: 0 - skip this loop (or nested loop)
+//         1 - Orio generated outer loop (orio_i, _t)
+//         2 - target to process
+int checkSkip(Loop* l) {
+    int ret = 0;
+   
+    string name = getIdv(l);
+    if (!name.empty()) {
+        // check two pre set variables
+        if (name == "orio_i" || name == "_t") {
+            ret = 1;
+        } else if (name.substr(0, 5) == "loop_") {
+            // check fake loop induction variable 
+            ret = 2;
+        }   
+    }
     return ret;
 }
 
-// get all candidate loops 
+// Get the innermost loop of the target nested loops
+Loop* getInnerLoop(Loop* lp) {
+    stack<Loop*> stk;
+    Loop* ret;
+    stk.push(lp);    
+
+    while(!stk.empty()) {
+        Loop* loop = stk.top();
+        stk.pop();
+
+        vector<Loop*> subLoops = loop->getSubLoops();                 
+        if (subLoops.size() !=0) {
+            stk.push(subLoops.front());
+        } else {
+            // innermost loop
+            ret = loop;
+        }
+    }
+
+    return ret;
+}
+
+// Get all candidate loops 
+// which are enclosed by loops (labeling) whose
+// induction variables are loop_xxx
+// Skip the fake loop header, and because Orio
+// generates a identical loop to ensure the unrolling
+// index can be divided, so only keep the 
+// first loop for unrolling, for example
+// 10 for (int loop_10=0; loop_10 < 1; loop_10++)
+// 11   for () 
+// 12    for () 
+// 13   for () <- identical loop to line 11
+// 14    for ()
+// This function returns the nested loop (innermost) from line 11
+// and skips the loop at line 13
 void getTargetLoops(LoopInfo& li, vector<Loop*>& loopVec) {
     
     for (LoopInfo::iterator it = li.begin(); it != li.end(); it++) {
@@ -279,16 +334,22 @@ void getTargetLoops(LoopInfo& li, vector<Loop*>& loopVec) {
             Loop* lp = stk.top();
             stk.pop();
             
-            if (checkSkip(lp)) {
-                // skip this loop
-                for (LoopInfo::iterator subIt = lp->getSubLoops().begin(); 
-                        subIt != lp->getSubLoops().end(); subIt++) {
-                    stk.push(*subIt);
+            int isTarget = checkSkip(lp);
+
+            if (isTarget != 0) {
+                if (isTarget == 1) {
+                    // skip this loop
+                    for (LoopInfo::iterator subIt = lp->getSubLoops().begin(); 
+                            subIt != lp->getSubLoops().end(); subIt++) {
+                        stk.push(*subIt);
+                    }
+                } 
+                
+                if (isTarget == 2) {
+                    // store the loop
+                    loopVec.push_back(getInnerLoop(lp));
                 }
-            } else {
-                // store the loop
-                loopVec.push_back(lp);
-            }
+            } 
         }
     }
 }
@@ -317,12 +378,16 @@ void writeToFile(Function& F, LoopInfo& li, DataLayout* layout,
 
     // get candidate loops
     getTargetLoops(li, loopVec);
-    	
+
+    // track the order of a loop in the src
+    // adapt to post-order 
+    int lpCtr = loopVec.size();
     // Note LoopInfo ONLY returns top-level loop for nested loops
 	for (LoopInfo::iterator lp = loopVec.begin(); lp != loopVec.end(); lp++)
 	{
 
 		Loop *loop = *lp;
+         
 		// find outermost loop
 		// if (loop -> getParentLoop() != NULL) continue;
 								
@@ -335,14 +400,17 @@ void writeToFile(Function& F, LoopInfo& li, DataLayout* layout,
 		{
 			ll = to_string(sline.getLine());
 			outs() << "Loop starts at line: " << ll <<"\n";
-			outFileName.append("."+ll);
+            //string loopLabel = getIdv(loop);
+            outFileName.append(".loop_"+ll);
+            outFileName.append("@"+to_string(lpCtr));
+
 			if (mode == 0) {
 				outFileName.append(".matrix");
 			} else {
 				outFileName.append(".dot");
 			}
 
-			
+			lpCtr--;
 		}	
 		// outstream
 		error_code RC;	
@@ -357,6 +425,16 @@ void writeToFile(Function& F, LoopInfo& li, DataLayout* layout,
 			out << "\tlabel = " << "\"CFG for loop in function \'" << funcName << "\' at line " << ll << "\";\n\n";
 		}
 
+        // skip basic blocks of the fake loop
+        /*
+        BlockAddress *addrHeader = BlockAddress::get(loop->getHeader());
+        BlockAddress *addrLatch = BlockAddress::get(loop->getLoopLatch());
+        // get the two intermediate successors of loop header
+        const Instruction *termIns = loop->getHeader()->getTerminator();        
+        BlockAddress *addrT = BlockAddress::get(termIns->getSuccessor(0));
+        BlockAddress *addrF = BlockAddress::get(termIns->getSuccessor(1));
+        */
+    
 		// label each block as id within the loop
 		// start from 0
 		int label = 0;
@@ -364,7 +442,17 @@ void writeToFile(Function& F, LoopInfo& li, DataLayout* layout,
 		{
 			//(*bi)->printAsOperand(outs(),false);
 			// create a mapping
-			bbMap[BlockAddress::get(*bi)] = label++;
+            /*
+            BlockAddress *bAddr = BlockAddress::get(*bi);
+            if (bAddr == addrHeader || bAddr == addrLatch || bAddr == addrT || bAddr == addrF) {
+                bbMap[BlockAddress::get(*bi)] = -1;
+            } else {
+                bbMap[BlockAddress::get(*bi)] = label++;
+            }
+            */
+
+         
+            bbMap[BlockAddress::get(*bi)] = label++;
 			
 			// setName not working here 
 			// since it doesn't allow duplicate name
@@ -381,18 +469,14 @@ void writeToFile(Function& F, LoopInfo& li, DataLayout* layout,
 		   }
 		 
 
-		   // need to modify the number of children for loop header
-		   // as 1 since the false branch of loop header is not included
-		   // in the basic blocks, so the loop header branch is removed
-		   // it means the branch probability from loop header to the first basic block (0->1) is 100%
-
-		   matrix[0 * label + 1] = 1.0f;
-
+		   
 		}
 	
 		// storage for instruction mix for each basic block
+        // added loop depth for each bb
         // added distance vector 
-		vector<vector<int>> nodeInstr(label, vector<int>(4+binConfig.size()-1, 0));
+        // the format is [instruction x 4, depth, histogram x 5]
+		vector<vector<float>> nodeInstr(label, vector<float>(5+binConfig.size()-1, 0));
 
 		for (Loop::block_iterator bi = (loop -> block_begin()); bi != loop -> block_end(); bi++)
 		{
@@ -400,10 +484,19 @@ void writeToFile(Function& F, LoopInfo& li, DataLayout* layout,
 			BlockAddress* bAddr = BlockAddress::get(bb);
 			// label(id) for current basic block
 			int pid = bbMap[bAddr];
+            
+            // skip 
+            if (pid == -1) {
+                continue;
+            }
+
 			int mix[4] = {0};
             vector<int> hist(binConfig.size()-1, 0);
 			getInstrMix(bb, mix); 
             getDistance(bb, loop, layout, binConfig, hist);
+            
+            // get loop depth for this bb
+            int loopLvl = li.getLoopDepth(bb); 
             
 			if (mode == 1) {
 				// write node info
@@ -421,15 +514,24 @@ void writeToFile(Function& F, LoopInfo& li, DataLayout* layout,
 			//((*bi) -> getName()).getAsInteger(10, pid);
 
 			// get instruction mix for node
-            nodeInstr[pid][0] = mix[0];
-            nodeInstr[pid][1] = mix[1];
-            nodeInstr[pid][2] = mix[2];
-            nodeInstr[pid][3] = mix[3];
-
+            float totInstr = mix[0] + mix[1] + mix[2] + mix[3];
+            if (totInstr == 0) {
+                totInstr = 1;
+            }
+            nodeInstr[pid][0] = mix[0] / totInstr;
+            nodeInstr[pid][1] = mix[1] / totInstr;
+            nodeInstr[pid][2] = mix[2] / totInstr;
+            nodeInstr[pid][3] = mix[3] / totInstr;
+            // add loop depth
+            nodeInstr[pid][4] = loopLvl; 
             // add other node metrics
             // distance vector
-            for (int i = 4; i < nodeInstr[0].size(); i++) {
-                nodeInstr[pid][i] = hist[i-4];
+            float totHist = hist[0] + hist[1] + hist[2] + hist[3] + hist[4];
+            if (totHist == 0) {
+                totHist = 1;
+            }
+            for (int i = 5; i < nodeInstr[0].size(); i++) {
+                nodeInstr[pid][i] = hist[i-5] / totHist;
             }
 
 			if (numSucc == 0) 
@@ -449,7 +551,10 @@ void writeToFile(Function& F, LoopInfo& li, DataLayout* layout,
 					// child bb id
 					int cid = bbMap[BlockAddress::get(tInst->getSuccessor(0))];
 					// (tInst -> getSuccessor(0) -> getName()).getAsInteger(10, cid);
-		
+                    if (cid == -1) {
+                        continue;
+                    }	
+
 					if (mode == 1) {
 						// close node info, add edge info
 						out << "}\"];\n";
@@ -477,6 +582,10 @@ void writeToFile(Function& F, LoopInfo& li, DataLayout* layout,
 						float value = rint((float)bp.getNumerator()/bp.getDenominator()*100)/100;
 						//(succBB -> getName()).getAsInteger(10, cid);
 						int cid = bbMap[BlockAddress::get(succBB)];
+                            
+                        if (cid == -1) {
+                            continue;
+                        }
 		
 						if (mode == 0) {
 							matrix[pid * label + cid] = value;
@@ -505,20 +614,21 @@ void writeToFile(Function& F, LoopInfo& li, DataLayout* layout,
 		}
 
 		if (mode == 0) {
-		// write matrix	
-		// first line of the output file is the matrix size
-			out << label <<"\n";
-			for (int i = 0; i < label; i++) {
+            // write matrix	
+            // first line of the output file is the matrix size
+            out << label <<"\n";
+            for (int i = 0; i < label; i++) {
 
 				// write instruction mix for the node
 				// in the beginning of the line
-				//out << nodeInstr[i][0] << ":";
-				//out << nodeInstr[i][1] << ":";
-				//out << nodeInstr[i][2] << ":";
-				//out << nodeInstr[i][3] << "\t";
-                // write all node metrics
+				// write all node metrics
                 for (int k = 0; k < nodeInstr[0].size(); k++) {
-                    out << nodeInstr[i][k];
+                    if (k == 4) {
+                        // loop depth
+                        out << format("%.2f", nodeInstr[i][k]); 
+                    } else {
+                        out << format("%.2f", nodeInstr[i][k]*100);
+                    }
                     if (k != nodeInstr[0].size()-1){
                         out << ":";
                     } else {
@@ -527,7 +637,7 @@ void writeToFile(Function& F, LoopInfo& li, DataLayout* layout,
                 }
 							
 				for (int j = 0; j < label; j++) {	
-					out << matrix[i*label + j] << "\t";
+					out << format("%.2f", matrix[i*label + j]) << "\t";
 				}	
 				out <<"\n";
 			}

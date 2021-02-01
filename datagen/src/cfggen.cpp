@@ -56,6 +56,7 @@ namespace {
         // extend the range to 0, ..., MAX
         binConfig.insert(binConfig.begin(), 0);
         binConfig.push_back(INT_MAX);
+        /*
         outs() << "Buckets are: \n";
         for (int i = 0; i < binConfig.size()-1; i++){
             if (i != binConfig.size()-2) {
@@ -64,6 +65,7 @@ namespace {
                 outs() << "[" << binConfig[i] << ", INT_MAX)";
             }
         }
+        */
 
 		LoopInfo &li = getAnalysis<LoopInfoWrapperPass>().getLoopInfo();
 		MemoryDependenceWrapperPass &mdwp = getAnalysis<MemoryDependenceWrapperPass>();
