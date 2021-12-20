@@ -1,5 +1,5 @@
 # Meliora framework
-Meliora is a code analysis infrastructure for machine learning-based performance model generatio of arbitrary codes based on static analysis of intermediate language representations.
+Meliora is a code analysis infrastructure for machine learning-based performance model generation of arbitrary codes based on static analysis of intermediate language representations.
 
 ## Requirements
 LLVM9, CMake3.1+, networkx>=2, pynauty
