@@ -1,5 +1,0 @@
-/home/users/shravank/projects/meliora2/Meliora/cpp_tests/build/CMakeFiles/rebuild_cache.dir
-/home/users/shravank/projects/meliora2/Meliora/cpp_tests/build/CMakeFiles/edit_cache.dir
-/home/users/shravank/projects/meliora2/Meliora/cpp_tests/build/stack_tests/CMakeFiles/rebuild_cache.dir
-/home/users/shravank/projects/meliora2/Meliora/cpp_tests/build/stack_tests/CMakeFiles/edit_cache.dir
-/home/users/shravank/projects/meliora2/Meliora/cpp_tests/build/stack_tests/CMakeFiles/stack_test.dir

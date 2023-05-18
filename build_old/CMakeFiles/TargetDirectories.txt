@@ -1,8 +1,0 @@
-/home/users/shravank/projects/meliora2/Meliora/build/CMakeFiles/acc_gen.dir
-/home/users/shravank/projects/meliora2/Meliora/build/CMakeFiles/rebuild_cache.dir
-/home/users/shravank/projects/meliora2/Meliora/build/CMakeFiles/intrinsics_gen.dir
-/home/users/shravank/projects/meliora2/Meliora/build/CMakeFiles/edit_cache.dir
-/home/users/shravank/projects/meliora2/Meliora/build/CMakeFiles/omp_gen.dir
-/home/users/shravank/projects/meliora2/Meliora/build/lib/CMakeFiles/rebuild_cache.dir
-/home/users/shravank/projects/meliora2/Meliora/build/lib/CMakeFiles/Meliora.dir
-/home/users/shravank/projects/meliora2/Meliora/build/lib/CMakeFiles/edit_cache.dir

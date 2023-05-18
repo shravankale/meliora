@@ -1,6 +1,0 @@
-1. Fetch LLVM
-2. Git checkout to llvmorg-14.0.1 tag
-3. Mkdir build; cd build
-    1. cmake -G Ninja -DLLVM_ENABLE_PROJECTS="clang;polly" -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi" -DCMAKE_INSTALL_PREFIX="/home/users/shravank/libs/llvm-14-meliora" -DLLVM_ENABLE_RTTI="ON" ../llvm
-    2. cmake --build . 
-    3. cmake --build . --target install

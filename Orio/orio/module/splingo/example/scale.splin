@@ -1,8 +1,0 @@
-SCALE
-in
-  alpha: scalar, x: vector
-out
-  y: vector
-{
-  y = alpha * x
-}
