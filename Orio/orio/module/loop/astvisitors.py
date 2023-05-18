@@ -3,16 +3,15 @@ Created on Feb 26, 2015
 
 @author: norris
 '''
-import ast, sys, os, traceback
 from orio.main.util.globals import *
-
 import orio.module.loop.codegen
+from orio.module.loop import ast
 
 class ASTVisitor:
     ''' Standard visitor pattern abstract class'''
     def __init__(self):
         self.verbose = False
-        if 'LOOPAST_DEBUG' in os.environ.keys(): self.verbose = True
+        if 'LOOPAST_DEBUG' in list(os.environ.keys()): self.verbose = True
     
     def __str__(self):
         return self.__class__.__name__
@@ -52,7 +51,7 @@ class ExampleVisitor(ASTVisitor):
                     
                 elif isinstance(node, ast.FunCallExp):
                     s = self._generate(node.exp) + '('
-                    s += ','.join(map(lambda x: self._generate(x), node.args))
+                    s += ','.join([self._generate(x) for x in node.args])
                     s += ')'
                     self.display(node, s)
         
@@ -221,7 +220,7 @@ class ExampleVisitor(ASTVisitor):
         
                 else:
                     self.display('[module.loop.astvisitors.ExampleVisitor] orio.module.loop.codegen internal error: unrecognized type of AST: %s' % node.__class__.__name__)
-            except Exception, e:
+            except Exception as e:
                 err("[module.loop.astvisitors.ExampleVisitor] Exception in node %s: %s" % (node.__class__.__name__,e))
             
         pass
@@ -360,7 +359,7 @@ class CountingVisitor(ASTVisitor):
                         self.visit(decl)
                 else:
                     err('[CountingVisitor] orio.module.loop.astvisitors.CountingVisitor internal error: unrecognized type of AST: %s' % node.__class__.__name__)
-            except Exception, e:
+            except Exception as e:
                 err("[CountingVisitor] Exception in node %s: %s" % (node.__class__,e))
 
             

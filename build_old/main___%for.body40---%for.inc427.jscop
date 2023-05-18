@@ -1,0 +1,296 @@
+{
+   "arrays": [
+      {
+         "name": "MemRef_C",
+         "sizes": [
+            "*",
+            "500"
+         ],
+         "type": "double"
+      },
+      {
+         "name": "MemRef_A",
+         "sizes": [
+            "*",
+            "500"
+         ],
+         "type": "double"
+      },
+      {
+         "name": "MemRef_B",
+         "sizes": [
+            "*",
+            "500"
+         ],
+         "type": "double"
+      }
+   ],
+   "context": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> {  : 15 <= p_0 <= 499 and 0 <= p_1 <= 3 and 0 <= p_2 <= 7 and 0 <= p_3 <= 3 and 0 <= p_4 <= 7 and 0 <= p_5 <= 499 and 0 <= p_6 <= 7 and 0 <= p_7 <= 249 and 0 <= p_8 <= 7 }",
+   "location": "__orio_perftest13.c:0-133",
+   "name": "%for.body40---%for.inc427",
+   "statements": [
+      {
+         "accesses": [
+            {
+               "kind": "write",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body40_last[] -> MemRef_indvars_iv51[] }"
+            },
+            {
+               "kind": "write",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body40_last[] -> MemRef_indvars_iv38[] }"
+            },
+            {
+               "kind": "write",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body40_last[] -> MemRef_kk30_011[] }"
+            }
+         ],
+         "domain": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body40_last[] }",
+         "name": "Stmt_for_body40_last",
+         "schedule": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body40_last[] -> [0, 0] }"
+      },
+      {
+         "accesses": [
+            {
+               "kind": "read",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_C[p_5 + 64p_6, 2p_7 + 64p_8] }"
+            },
+            {
+               "kind": "read",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_A[p_5 + 64p_6, 16p_3 + 64p_4 + 8i0] }"
+            },
+            {
+               "kind": "read",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_B[16p_3 + 64p_4 + 8i0, 2p_7 + 64p_8] }"
+            },
+            {
+               "kind": "write",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_C[p_5 + 64p_6, 2p_7 + 64p_8] }"
+            },
+            {
+               "kind": "read",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_A[p_5 + 64p_6, 1 + 16p_3 + 64p_4 + 8i0] }"
+            },
+            {
+               "kind": "read",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_B[1 + 16p_3 + 64p_4 + 8i0, 2p_7 + 64p_8] }"
+            },
+            {
+               "kind": "write",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_C[p_5 + 64p_6, 2p_7 + 64p_8] }"
+            },
+            {
+               "kind": "read",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_A[p_5 + 64p_6, 2 + 16p_3 + 64p_4 + 8i0] }"
+            },
+            {
+               "kind": "read",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_B[2 + 16p_3 + 64p_4 + 8i0, 2p_7 + 64p_8] }"
+            },
+            {
+               "kind": "write",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_C[p_5 + 64p_6, 2p_7 + 64p_8] }"
+            },
+            {
+               "kind": "read",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_A[p_5 + 64p_6, 3 + 16p_3 + 64p_4 + 8i0] }"
+            },
+            {
+               "kind": "read",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_B[3 + 16p_3 + 64p_4 + 8i0, 2p_7 + 64p_8] }"
+            },
+            {
+               "kind": "write",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_C[p_5 + 64p_6, 2p_7 + 64p_8] }"
+            },
+            {
+               "kind": "read",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_A[p_5 + 64p_6, 4 + 16p_3 + 64p_4 + 8i0] }"
+            },
+            {
+               "kind": "read",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_B[4 + 16p_3 + 64p_4 + 8i0, 2p_7 + 64p_8] }"
+            },
+            {
+               "kind": "write",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_C[p_5 + 64p_6, 2p_7 + 64p_8] }"
+            },
+            {
+               "kind": "read",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_A[p_5 + 64p_6, 5 + 16p_3 + 64p_4 + 8i0] }"
+            },
+            {
+               "kind": "read",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_B[5 + 16p_3 + 64p_4 + 8i0, 2p_7 + 64p_8] }"
+            },
+            {
+               "kind": "write",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_C[p_5 + 64p_6, 2p_7 + 64p_8] }"
+            },
+            {
+               "kind": "read",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_A[p_5 + 64p_6, 6 + 16p_3 + 64p_4 + 8i0] }"
+            },
+            {
+               "kind": "read",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_B[6 + 16p_3 + 64p_4 + 8i0, 2p_7 + 64p_8] }"
+            },
+            {
+               "kind": "write",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_C[p_5 + 64p_6, 2p_7 + 64p_8] }"
+            },
+            {
+               "kind": "read",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_A[p_5 + 64p_6, 7 + 16p_3 + 64p_4 + 8i0] }"
+            },
+            {
+               "kind": "read",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_B[7 + 16p_3 + 64p_4 + 8i0, 2p_7 + 64p_8] }"
+            },
+            {
+               "kind": "write",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_C[p_5 + 64p_6, 2p_7 + 64p_8] }"
+            },
+            {
+               "kind": "read",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_C[p_5 + 64p_6, 1 + 2p_7 + 64p_8] }"
+            },
+            {
+               "kind": "read",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_B[16p_3 + 64p_4 + 8i0, 1 + 2p_7 + 64p_8] }"
+            },
+            {
+               "kind": "write",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_C[p_5 + 64p_6, 1 + 2p_7 + 64p_8] }"
+            },
+            {
+               "kind": "read",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_B[1 + 16p_3 + 64p_4 + 8i0, 1 + 2p_7 + 64p_8] }"
+            },
+            {
+               "kind": "write",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_C[p_5 + 64p_6, 1 + 2p_7 + 64p_8] }"
+            },
+            {
+               "kind": "read",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_B[2 + 16p_3 + 64p_4 + 8i0, 1 + 2p_7 + 64p_8] }"
+            },
+            {
+               "kind": "write",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_C[p_5 + 64p_6, 1 + 2p_7 + 64p_8] }"
+            },
+            {
+               "kind": "read",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_B[3 + 16p_3 + 64p_4 + 8i0, 1 + 2p_7 + 64p_8] }"
+            },
+            {
+               "kind": "write",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_C[p_5 + 64p_6, 1 + 2p_7 + 64p_8] }"
+            },
+            {
+               "kind": "read",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_B[4 + 16p_3 + 64p_4 + 8i0, 1 + 2p_7 + 64p_8] }"
+            },
+            {
+               "kind": "write",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_C[p_5 + 64p_6, 1 + 2p_7 + 64p_8] }"
+            },
+            {
+               "kind": "read",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_B[5 + 16p_3 + 64p_4 + 8i0, 1 + 2p_7 + 64p_8] }"
+            },
+            {
+               "kind": "write",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_C[p_5 + 64p_6, 1 + 2p_7 + 64p_8] }"
+            },
+            {
+               "kind": "read",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_B[6 + 16p_3 + 64p_4 + 8i0, 1 + 2p_7 + 64p_8] }"
+            },
+            {
+               "kind": "write",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_C[p_5 + 64p_6, 1 + 2p_7 + 64p_8] }"
+            },
+            {
+               "kind": "read",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_B[7 + 16p_3 + 64p_4 + 8i0, 1 + 2p_7 + 64p_8] }"
+            },
+            {
+               "kind": "write",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> MemRef_C[p_5 + 64p_6, 1 + 2p_7 + 64p_8] }"
+            }
+         ],
+         "domain": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] : 64p_2 <= -7 + p_0 - 16p_1 and i0 > 0 and 8i0 <= -7 + p_0 - 16p_3 - 64p_4; Stmt_for_body52[0] : 64p_2 <= -7 + p_0 - 16p_1 }",
+         "name": "Stmt_for_body52",
+         "schedule": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body52[i0] -> [1, i0] : i0 > 0 and 8i0 <= -7 + p_0 - 16p_3 - 64p_4; Stmt_for_body52[0] -> [1, 0] }"
+      },
+      {
+         "accesses": [
+            {
+               "kind": "write",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_end[] -> MemRef_rem[] }"
+            }
+         ],
+         "domain": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_end[] }",
+         "name": "Stmt_for_end",
+         "schedule": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_end[] -> [2, 0] }"
+      },
+      {
+         "accesses": [
+            {
+               "kind": "read",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body388_lr_ph[] -> MemRef_rem[] }"
+            },
+            {
+               "kind": "write",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body388_lr_ph[] -> MemRef_indvars_iv53__phi[] }"
+            }
+         ],
+         "domain": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body388_lr_ph[] : 64p_2 <= 1 + p_0 - 16p_1 and 8*floor((1 + p_0)/8) <= p_0 }",
+         "name": "Stmt_for_body388_lr_ph",
+         "schedule": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body388_lr_ph[] -> [3, 0] }"
+      },
+      {
+         "accesses": [
+            {
+               "kind": "write",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body388[i0] -> MemRef_indvars_iv53__phi[] }"
+            },
+            {
+               "kind": "read",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body388[i0] -> MemRef_indvars_iv53__phi[] }"
+            },
+            {
+               "kind": "read",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body388[i0] -> MemRef_C[p_5 + 64p_6, 2p_7 + 64p_8] }"
+            },
+            {
+               "kind": "read",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body388[i0] -> MemRef_A[p_5 + 64p_6, o1] : (-i0 + o1) mod 8 = 0 and -6 + p_0 + i0 <= o1 <= 1 + p_0 + i0 }"
+            },
+            {
+               "kind": "read",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body388[i0] -> MemRef_B[o0, 2p_7 + 64p_8] : (-i0 + o0) mod 8 = 0 and -6 + p_0 + i0 <= o0 <= 1 + p_0 + i0 }"
+            },
+            {
+               "kind": "write",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body388[i0] -> MemRef_C[p_5 + 64p_6, 2p_7 + 64p_8] }"
+            },
+            {
+               "kind": "read",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body388[i0] -> MemRef_C[p_5 + 64p_6, 1 + 2p_7 + 64p_8] }"
+            },
+            {
+               "kind": "read",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body388[i0] -> MemRef_B[o0, 1 + 2p_7 + 64p_8] : (-i0 + o0) mod 8 = 0 and -6 + p_0 + i0 <= o0 <= 1 + p_0 + i0 }"
+            },
+            {
+               "kind": "write",
+               "relation": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body388[i0] -> MemRef_C[p_5 + 64p_6, 1 + 2p_7 + 64p_8] }"
+            }
+         ],
+         "domain": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body388[i0] : 64p_2 <= 1 + p_0 - 16p_1 and i0 >= 0 and 8*floor((1 + p_0)/8) <= p_0 - i0 }",
+         "name": "Stmt_for_body388",
+         "schedule": "[p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8] -> { Stmt_for_body388[i0] -> [4, i0] }"
+      }
+   ]
+}

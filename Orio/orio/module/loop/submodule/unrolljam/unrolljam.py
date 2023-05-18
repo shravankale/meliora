@@ -3,7 +3,8 @@
 #
 
 import sys
-import orio.module.loop.submodule.submodule, transformation
+import orio.module.loop.submodule.submodule
+import orio.module.loop.submodule.unrolljam.transformation as transformation
 from orio.main.util.globals import *
 
 #---------------------------------------------------------------------
@@ -35,7 +36,7 @@ class UnrollJam(orio.module.loop.submodule.submodule.SubModule):
             # evaluate the RHS expression
             try:
                 rhs = eval(rhs, perf_params)
-            except Exception, e:
+            except Exception as e:
                 err('orio.module.loop.submodule.unrolljam.unrolljam: %s: failed to evaluate the argument expression: %s\n --> %s: %s' % (line_no, rhs,e.__class__.__name__, e))
                 
             # unroll factor
@@ -90,6 +91,9 @@ class UnrollJam(orio.module.loop.submodule.submodule.SubModule):
         # perform the unroll-and-jam transformation
         t = transformation.Transformation(ufactor, do_jamming, stmt, parallelize)
         transformed_stmt = t.transform()
+
+        debug('orio.module.loop.submodule.unrolljam.UnrollJam: finishing unrollAndJam')
+        debug("SUCCESS unrollAndJam:", obj=self)
 
         # return the transformed statement
         return transformed_stmt

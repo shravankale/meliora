@@ -1,0 +1,513 @@
+Inside run function
+Function Name: malloc_arrays
+Inside run function
+Function Name: init_input_vars
+Inside run function
+Function Name: main
+Inside getTargetLoops()
+Inside checkSkip()
+Inside getIDV
+Value* v orio_i
+Loop Induction variable: orio_i
+RET: 1
+Exiting checkSkip()
+isTarget loop? 1
+Inside checkSkip()
+Inside getIDV
+Value* v loop_87
+Loop Induction variable: loop_87
+RET: 2
+Exiting checkSkip()
+isTarget loop? 2
+Inside getInnerLoops()
+Exiting getInnerLoops()
+Exiting getTargetLoops()
+loopVec Polly Size: 1
+Inside getIDV
+Value* v k82
+----Testing polly::Scop Class-----
+----End Testing polly::Scop Class-----
+Inside getTargetLoops()
+Inside checkSkip()
+Inside getIDV
+Value* v orio_i
+Loop Induction variable: orio_i
+RET: 1
+Exiting checkSkip()
+isTarget loop? 1
+Inside checkSkip()
+Inside getIDV
+Value* v loop_87
+Loop Induction variable: loop_87
+RET: 2
+Exiting checkSkip()
+isTarget loop? 2
+Inside getInnerLoops()
+Exiting getInnerLoops()
+Exiting getTargetLoops()
+loopVec Polly Size: 1
+Inside getIDV
+Value* v k82
+----Testing polly::Scop Class-----
+----End Testing polly::Scop Class-----
+Inside getTargetLoops()
+Inside checkSkip()
+Inside getIDV
+Value* v orio_i
+Loop Induction variable: orio_i
+RET: 1
+Exiting checkSkip()
+isTarget loop? 1
+Inside checkSkip()
+Inside getIDV
+Value* v loop_87
+Loop Induction variable: loop_87
+RET: 2
+Exiting checkSkip()
+isTarget loop? 2
+Inside getInnerLoops()
+Exiting getInnerLoops()
+Exiting getTargetLoops()
+loopVec Polly Size: 1
+Inside getIDV
+Value* v k82
+----Testing polly::Scop Class-----
+----End Testing polly::Scop Class-----
+Inside getTargetLoops()
+Inside checkSkip()
+Inside getIDV
+Value* v orio_i
+Loop Induction variable: orio_i
+RET: 1
+Exiting checkSkip()
+isTarget loop? 1
+Inside checkSkip()
+Inside getIDV
+Value* v loop_87
+Loop Induction variable: loop_87
+RET: 2
+Exiting checkSkip()
+isTarget loop? 2
+Inside getInnerLoops()
+Exiting getInnerLoops()
+Exiting getTargetLoops()
+loopVec Polly Size: 1
+Inside getIDV
+Value* v k82
+----Testing polly::Scop Class-----
+----End Testing polly::Scop Class-----
+Inside getTargetLoops()
+Inside checkSkip()
+Inside getIDV
+Value* v orio_i
+Loop Induction variable: orio_i
+RET: 1
+Exiting checkSkip()
+isTarget loop? 1
+Inside checkSkip()
+Inside getIDV
+Value* v loop_87
+Loop Induction variable: loop_87
+RET: 2
+Exiting checkSkip()
+isTarget loop? 2
+Inside getInnerLoops()
+Exiting getInnerLoops()
+Exiting getTargetLoops()
+loopVec Polly Size: 1
+Inside getIDV
+Value* v k82
+----Testing polly::Scop Class-----
+----End Testing polly::Scop Class-----
+Inside getTargetLoops()
+Inside checkSkip()
+Inside getIDV
+Value* v orio_i
+Loop Induction variable: orio_i
+RET: 1
+Exiting checkSkip()
+isTarget loop? 1
+Inside checkSkip()
+Inside getIDV
+Value* v loop_87
+Loop Induction variable: loop_87
+RET: 2
+Exiting checkSkip()
+isTarget loop? 2
+Inside getInnerLoops()
+Exiting getInnerLoops()
+Exiting getTargetLoops()
+loopVec Polly Size: 1
+Inside getIDV
+Value* v k82
+----Testing polly::Scop Class-----
+----End Testing polly::Scop Class-----
+Inside getTargetLoops()
+Inside checkSkip()
+Inside getIDV
+Value* v orio_i
+Loop Induction variable: orio_i
+RET: 1
+Exiting checkSkip()
+isTarget loop? 1
+Inside checkSkip()
+Inside getIDV
+Value* v loop_87
+Loop Induction variable: loop_87
+RET: 2
+Exiting checkSkip()
+isTarget loop? 2
+Inside getInnerLoops()
+Exiting getInnerLoops()
+Exiting getTargetLoops()
+loopVec Polly Size: 1
+Inside getIDV
+Value* v k82
+----Testing polly::Scop Class-----
+----End Testing polly::Scop Class-----
+Inside getTargetLoops()
+Inside checkSkip()
+Inside getIDV
+Value* v orio_i
+Loop Induction variable: orio_i
+RET: 1
+Exiting checkSkip()
+isTarget loop? 1
+Inside checkSkip()
+Inside getIDV
+Value* v loop_87
+Loop Induction variable: loop_87
+RET: 2
+Exiting checkSkip()
+isTarget loop? 2
+Inside getInnerLoops()
+Exiting getInnerLoops()
+Exiting getTargetLoops()
+loopVec Polly Size: 1
+Inside getIDV
+Value* v k82
+----Testing polly::Scop Class-----
+----End Testing polly::Scop Class-----
+Inside getTargetLoops()
+Inside checkSkip()
+Inside getIDV
+Value* v orio_i
+Loop Induction variable: orio_i
+RET: 1
+Exiting checkSkip()
+isTarget loop? 1
+Inside checkSkip()
+Inside getIDV
+Value* v loop_87
+Loop Induction variable: loop_87
+RET: 2
+Exiting checkSkip()
+isTarget loop? 2
+Inside getInnerLoops()
+Exiting getInnerLoops()
+Exiting getTargetLoops()
+loopVec Polly Size: 1
+Inside getIDV
+Value* v k82
+----Testing polly::Scop Class-----
+----End Testing polly::Scop Class-----
+Inside getTargetLoops()
+Inside checkSkip()
+Inside getIDV
+Value* v orio_i
+Loop Induction variable: orio_i
+RET: 1
+Exiting checkSkip()
+isTarget loop? 1
+Inside checkSkip()
+Inside getIDV
+Value* v loop_87
+Loop Induction variable: loop_87
+RET: 2
+Exiting checkSkip()
+isTarget loop? 2
+Inside getInnerLoops()
+Exiting getInnerLoops()
+Exiting getTargetLoops()
+loopVec Polly Size: 1
+Inside getIDV
+Value* v k82
+----Testing polly::Scop Class-----
+----End Testing polly::Scop Class-----
+Inside getTargetLoops()
+Inside checkSkip()
+Inside getIDV
+Value* v orio_i
+Loop Induction variable: orio_i
+RET: 1
+Exiting checkSkip()
+isTarget loop? 1
+Inside checkSkip()
+Inside getIDV
+Value* v loop_87
+Loop Induction variable: loop_87
+RET: 2
+Exiting checkSkip()
+isTarget loop? 2
+Inside getInnerLoops()
+Exiting getInnerLoops()
+Exiting getTargetLoops()
+loopVec Polly Size: 1
+Inside getIDV
+Value* v k82
+----Testing polly::Scop Class-----
+----End Testing polly::Scop Class-----
+Inside getTargetLoops()
+Inside checkSkip()
+Inside getIDV
+Value* v orio_i
+Loop Induction variable: orio_i
+RET: 1
+Exiting checkSkip()
+isTarget loop? 1
+Inside checkSkip()
+Inside getIDV
+Value* v loop_87
+Loop Induction variable: loop_87
+RET: 2
+Exiting checkSkip()
+isTarget loop? 2
+Inside getInnerLoops()
+Exiting getInnerLoops()
+Exiting getTargetLoops()
+loopVec Polly Size: 1
+Inside getIDV
+Value* v k82
+----Testing polly::Scop Class-----
+----End Testing polly::Scop Class-----
+Inside getTargetLoops()
+Inside checkSkip()
+Inside getIDV
+Value* v orio_i
+Loop Induction variable: orio_i
+RET: 1
+Exiting checkSkip()
+isTarget loop? 1
+Inside checkSkip()
+Inside getIDV
+Value* v loop_87
+Loop Induction variable: loop_87
+RET: 2
+Exiting checkSkip()
+isTarget loop? 2
+Inside getInnerLoops()
+Exiting getInnerLoops()
+Exiting getTargetLoops()
+loopVec Polly Size: 1
+Inside getIDV
+Value* v k82
+----Testing polly::Scop Class-----
+----End Testing polly::Scop Class-----
+Inside getTargetLoops()
+Inside checkSkip()
+Inside getIDV
+Value* v orio_i
+Loop Induction variable: orio_i
+RET: 1
+Exiting checkSkip()
+isTarget loop? 1
+Inside checkSkip()
+Inside getIDV
+Value* v loop_87
+Loop Induction variable: loop_87
+RET: 2
+Exiting checkSkip()
+isTarget loop? 2
+Inside getInnerLoops()
+Exiting getInnerLoops()
+Exiting getTargetLoops()
+loopVec Polly Size: 1
+Inside getIDV
+Value* v k82
+----Testing polly::Scop Class-----
+----End Testing polly::Scop Class-----
+Loop 1: #BBs= 124
+_____________INSIDE UTIL.H_____________
+baseOutName__orio_perftest7.c
+baseOutName2__orio_perftest7.c
+Inside getTargetLoops()
+Inside checkSkip()
+Inside getIDV
+Value* v orio_i
+Loop Induction variable: orio_i
+RET: 1
+Exiting checkSkip()
+isTarget loop? 1
+Inside checkSkip()
+Inside getIDV
+Value* v loop_87
+Loop Induction variable: loop_87
+RET: 2
+Exiting checkSkip()
+isTarget loop? 2
+Inside getInnerLoops()
+Exiting getInnerLoops()
+Exiting getTargetLoops()
+loopVec Size: 1
+Inside getIDV
+Value* v k82
+baseOutName2__orio_perftest7.c
+Inside sline
+Inside Loop::Block_iterator
+Inside Loop::Block_iterator
+Inside Loop::Block_iterator
+Inside Loop::Block_iterator
+Inside Loop::Block_iterator
+Inside Loop::Block_iterator
+Basic Block PID was skipped: 0
+Basic Block PID was skipped: 1
+Basic Block PID was skipped: 2
+Basic Block PID was skipped: 3
+Basic Block PID was skipped: 4
+Basic Block PID was skipped: 5
+__________Not Writing Matrix ___________
+..........Writing Matrix ..........
+File Name: __orio_perftest7.c.loop_113@1.matrix
+Matrix Out: 6
+0.00:50.00:25.00:25.00:10.00:0.00:0.00:0.00:0.00:0.00	0.00	0.50	0.50	0.00	0.00	0.00	
+0.00:33.33:33.33:33.33:10.00:0.00:0.00:0.00:0.00:0.00	0.00	0.00	0.00	1.00	0.00	0.00	
+0.00:0.00:100.00:0.00:10.00:0.00:0.00:0.00:0.00:0.00	0.00	0.00	0.00	1.00	0.00	0.00	
+0.00:0.00:50.00:50.00:10.00:0.00:0.00:0.00:0.00:0.00	0.03	0.00	0.00	0.00	0.97	0.00	
+0.00:85.71:0.79:13.49:10.00:0.00:8.96:22.39:52.24:16.42	0.00	0.00	0.00	0.00	0.00	1.00	
+0.00:50.00:25.00:25.00:10.00:100.00:0.00:0.00:0.00:0.00	1.00	0.00	0.00	0.00	0.00	0.00	
+
+h.kernel_name
+_____________ENDOF UTIL.H_____________
+__________________INSIDE CFGGEN___________________
+__________________HCFG from new container___________________
+HCFG BaseOutName: __orio_perftest7.c
+HCFG body: __orio_perftest7.c
+HCFG kernel_name: 
+HCFG kernel_version: 
+HCFG kernel_variation: 
+HCFG Loop ID: 113
+HCFG Loop CNTRL: 1
+HCFG graph_label: 
+HCFG file_name: __orio_perftest7.c
+HCFG.body: 0.00:50.00:25.00:25.00:10.00:0.00:0.00:0.00:0.00:0.00	0.00	0.50	0.50	0.00	0.00	0.00	
+0.00:33.33:33.33:33.33:10.00:0.00:0.00:0.00:0.00:0.00	0.00	0.00	0.00	1.00	0.00	0.00	
+0.00:0.00:100.00:0.00:10.00:0.00:0.00:0.00:0.00:0.00	0.00	0.00	0.00	1.00	0.00	0.00	
+0.00:0.00:50.00:50.00:10.00:0.00:0.00:0.00:0.00:0.00	0.03	0.00	0.00	0.00	0.97	0.00	
+0.00:85.71:0.79:13.49:10.00:0.00:8.96:22.39:52.24:16.42	0.00	0.00	0.00	0.00	0.00	1.00	
+0.00:50.00:25.00:25.00:10.00:100.00:0.00:0.00:0.00:0.00	1.00	0.00	0.00	0.00	0.00	0.00	
+
+Inside py init
+0x5626ed862900Scop ID: 0
+Scop Name: %for.cond9---%cond.end
+----Filtered Loop name: k82
+Getting Scop name: for.cond9 => cond.end
+Num. of Params: 0
+Is Empty? : 0
+The maximum depth of the loop: 0
+The number of statements: 1
+0x5626ed86cdc0Scop ID: 1
+Scop Name: %for.cond15---%cond.end21
+----Filtered Loop name: k82
+Getting Scop name: for.cond15 => cond.end21
+Num. of Params: 0
+Is Empty? : 0
+The maximum depth of the loop: 0
+The number of statements: 1
+0x5626ed874260Scop ID: 2
+Scop Name: %for.cond30---%cond.end36
+----Filtered Loop name: k82
+Getting Scop name: for.cond30 => cond.end36
+Num. of Params: 0
+Is Empty? : 0
+The maximum depth of the loop: 0
+The number of statements: 1
+0x5626ed87b090Scop ID: 3
+Scop Name: %for.cond41---%cond.end47
+----Filtered Loop name: k82
+Getting Scop name: for.cond41 => cond.end47
+Num. of Params: 0
+Is Empty? : 0
+The maximum depth of the loop: 0
+The number of statements: 1
+0x5626ed883b00Scop ID: 4
+Scop Name: %for.cond83---%cond.end89
+----Filtered Loop name: k82
+Getting Scop name: for.cond83 => cond.end89
+Num. of Params: 0
+Is Empty? : 0
+The maximum depth of the loop: 0
+The number of statements: 1
+0x5626ed88a990Scop ID: 5
+Scop Name: %for.cond187---%cond.end193
+----Filtered Loop name: k82
+Getting Scop name: for.cond187 => cond.end193
+Num. of Params: 0
+Is Empty? : 0
+The maximum depth of the loop: 0
+The number of statements: 1
+0x5626ed892430Scop ID: 6
+Scop Name: %for.end---%for.cond187
+----Filtered Loop name: k82
+Getting Scop name: for.end => for.cond187
+Num. of Params: 0
+Is Empty? : 0
+The maximum depth of the loop: 0
+The number of statements: 3
+0x5626ed8a0910Scop ID: 7
+Scop Name: %for.cond297---%cond.end303
+----Filtered Loop name: k82
+Getting Scop name: for.cond297 => cond.end303
+Num. of Params: 0
+Is Empty? : 0
+The maximum depth of the loop: 0
+The number of statements: 1
+0x5626ed8a6a10Scop ID: 8
+Scop Name: %for.cond312---%cond.end318
+----Filtered Loop name: k82
+Getting Scop name: for.cond312 => cond.end318
+Num. of Params: 0
+Is Empty? : 0
+The maximum depth of the loop: 0
+The number of statements: 1
+0x5626ed8ad850Scop ID: 9
+Scop Name: %for.cond323---%cond.end329
+----Filtered Loop name: k82
+Getting Scop name: for.cond323 => cond.end329
+Num. of Params: 0
+Is Empty? : 0
+The maximum depth of the loop: 0
+The number of statements: 1
+0x5626ed8b46b0Scop ID: 10
+Scop Name: %for.cond342---%cond.end348
+----Filtered Loop name: k82
+Getting Scop name: for.cond342 => cond.end348
+Num. of Params: 0
+Is Empty? : 0
+The maximum depth of the loop: 0
+The number of statements: 1
+0x5626ed8bb510Scop ID: 11
+Scop Name: %for.cond394---%cond.end400
+----Filtered Loop name: k82
+Getting Scop name: for.cond394 => cond.end400
+Num. of Params: 0
+Is Empty? : 0
+The maximum depth of the loop: 0
+The number of statements: 1
+0x5626ed8c2f60Scop ID: 12
+Scop Name: %for.end373---%for.cond394
+----Filtered Loop name: k82
+Getting Scop name: for.end373 => for.cond394
+Num. of Params: 0
+Is Empty? : 0
+The maximum depth of the loop: 0
+The number of statements: 3
+0x5626ed8d4970Scop ID: 13
+Scop Name: %for.end276---%for.cond297
+----Filtered Loop name: k82
+Getting Scop name: for.end276 => for.cond297
+Num. of Params: 0
+Is Empty? : 0
+The maximum depth of the loop: 0
+The number of statements: 3
+-------Filtered Candidate Loops: k82
+Loop starts at line: 113

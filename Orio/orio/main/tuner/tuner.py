@@ -67,7 +67,7 @@ class PerfTuner:
                                                                   tinfo.ivar_init_file, tinfo.ptest_skeleton_code_file, self.odriver.lang,
                                                                   tinfo.random_seed, use_parallel_search)
             elif self.odriver.lang == 'opencl':
-                c = orio.main.tuner.ptest_codegen.PerfTestCodeGenCUDA(prob_size, tinfo.ivar_decls, tinfo.ivar_decl_file,
+                c = orio.main.tuner.ptest_codegen.PerfTestCodeGenOpenCL(prob_size, tinfo.ivar_decls, tinfo.ivar_decl_file,
                                                                   tinfo.ivar_init_file, tinfo.ptest_skeleton_code_file, self.odriver.lang,
                                                                   tinfo.random_seed, use_parallel_search)
             elif self.odriver.lang == 'fortran':
@@ -99,7 +99,6 @@ class PerfTuner:
 
         # dynamically load the search engine class and configure it
         
-        #print tinfo.search_algo
         if Globals().extern:
             tinfo.search_algo='Extern'
             info('Running in %s mode' % tinfo.search_algo)
@@ -113,6 +112,7 @@ class PerfTuner:
         # search runs
         search_time_limit = 60 * tinfo.search_time_limit
         search_total_runs = tinfo.search_total_runs
+        search_use_z3 = tinfo.search_use_z3
         search_resume = tinfo.search_resume
 
         # get the search-algorithm-specific arguments
@@ -123,12 +123,11 @@ class PerfTuner:
         for ptcodegen in ptcodegens:
             if Globals().verbose:
                 info('\n----- begin empirical tuning for problem size -----')
-                iparams = ptcodegen.input_params[:]
-                iparams.sort(lambda x,y: cmp(x[0],y[0]))
+                # Sort y variable name... not sure it's really necessary
+                iparams = sorted(ptcodegen.input_params[:])
                 for pname, pvalue in iparams:
                     info(' %s = %s' % (pname, pvalue))
-            iparams = ptcodegen.input_params[:]
-            iparams.sort(lambda x,y: cmp(x[0],y[0]))
+            iparams = sorted(ptcodegen.input_params[:])
             for pname, pvalue in iparams:
                 Globals().metadata['size_' + pname] = pvalue
 
@@ -151,12 +150,10 @@ class PerfTuner:
             # search for the best performance parameters
             best_perf_params, best_perf_cost = search_eng.search()
 
-            # print the best performance parameters
-            
+            # output the best performance parameters
             if Globals().verbose and not Globals().extern:
                 info('----- the obtained best performance parameters -----')
-                pparams = best_perf_params.items()
-                pparams.sort(lambda x,y: cmp(x[0],y[0]))
+                pparams = sorted(list(best_perf_params.items()))
                 for pname, pvalue in pparams:
                     info(' %s = %s' % (pname, pvalue))
         
@@ -164,7 +161,7 @@ class PerfTuner:
             if Globals().extern:
                 best_perf_params=Globals().config
 
-            #print Globals().config    
+            debug("[orio.main.tuner.tuner] Globals config: %s" % str(Globals().config), obj=self, level=6)
             
             cur_optimized_code_seq = self.odriver.optimizeCodeFrags(cfrags, best_perf_params)
 
@@ -178,15 +175,13 @@ class PerfTuner:
             # insert comments into the optimized code to include information about 
             # the best performance parameters and the input problem sizes
             iproblem_code = ''
-            iparams = ptcodegen.input_params[:]
-            iparams.sort(lambda x,y: cmp(x[0],y[0]))
+            iparams = sorted(ptcodegen.input_params[:])
             for pname, pvalue in iparams:
                 if pname == '__builtins__':
                     continue
                 iproblem_code += '  %s = %s \n' % (pname, pvalue)
             pparam_code = ''
-            pparams = best_perf_params.items()
-            pparams.sort(lambda x,y: cmp(x[0],y[0]))
+            pparams = sorted(list(best_perf_params.items()))
             for pname, pvalue in pparams:
                 if pname == '__builtins__':
                     continue
@@ -224,7 +219,7 @@ class PerfTuner:
             spec_name = match_obj.group(1)
             spec_file = spec_name+'.spec'
             try:
-                src_dir = '/'.join(Globals().src_filenames.keys()[0].split('/')[:-1])
+                src_dir = '/'.join(list(Globals().src_filenames.keys())[0].split('/')[:-1])
                 spec_file_path = os.getcwd() + '/' + src_dir + '/' + spec_file
                 f = open(spec_file_path, 'r')
                 tspec_code = f.read()
@@ -280,16 +275,16 @@ class PerfTuner:
 
         # compute all possible combinations of problem sizes
         prob_sizes = []
-        pnames, pvalss = zip(*iparam_params)
+        pnames, pvalss = list(zip(*iparam_params))
         for pvals in self.__listAllCombinations(pvalss):
-            prob_sizes.append(zip(pnames, pvals))
+            prob_sizes.append(list(zip(pnames, pvals)))
 
         # exclude all invalid problem sizes
         n_prob_sizes = []
         for p in prob_sizes:
             try:
                 is_valid = eval(iparam_constraint, dict(p))
-            except Exception, e:
+            except Exception as e:
                 err('orio.main.tuner.tuner:%s: failed to evaluate the input parameter constraint expression\n --> %s: %s' %  (iparam_constraint,e.__class__.__name__, e))
             if is_valid:
                 n_prob_sizes.append(p)
@@ -308,101 +303,47 @@ class PerfTuner:
     def __buildCoordSystem(self, perf_params, cmdline_params):
         '''Return information about the coordinate systems that represent the search space'''
 
-        debug("BUILDING COORD SYSTEM")
+        debug("BUILDING COORD SYSTEM", obj=self,level=3)
 
         # get the axis names and axis value ranges
         axis_names = []
         axis_val_ranges = []
         for pname, prange in perf_params:
             axis_names.append(pname)
-            axis_val_ranges.append(self.__sort(prange))
+            # BN: why on earth would someone do this?????
+            # axis_val_ranges.append(self.__sort(prange))
+            axis_val_ranges.append(prange)
 
         for pname, prange in cmdline_params:
             axis_names.append('__cmdline_' + pname)
-            axis_val_ranges.append(self.__sort(prange))
+            axis_val_ranges.append(prange)
 
         self.num_params=len(axis_names)
         self.num_configs=1
         self.num_bin=0
+        self.num_categorical = 0
         self.num_int=self.num_params
 
         ptype=[]
         for vals in axis_val_ranges:
-            #print min(vals)
             self.num_configs=self.num_configs*len(vals)
             ptype.append('I')
-            if len(vals)==2:
-                #print vals
-                if False in vals or True in vals:
-                    self.num_bin=self.num_bin+1
-                    ptype[len(ptype)-1]=('B')
+            if type(vals[0]) == bool:
+                self.num_bin=self.num_bin+1
+                ptype[len(ptype)-1]=('B')
+            if type(vals[0]) == str:
+                self.num_categorical = self.num_categorical+1
 
-        self.num_int=self.num_int-self.num_bin
+        self.num_int -= self.num_bin
+        self.num_int -= self.num_categorical
 
-        min_vals=[min(v) for v in axis_val_ranges]
-        #min_vals=[min(v)-min(v) for v in axis_val_ranges]
-        min_vals=[0 for v in min_vals]
-        min_val_str="%s" % min_vals
-        min_val_str=min_val_str.replace('False','0')
-        min_val_str=min_val_str.replace('[','')
-        min_val_str=min_val_str.replace(']','')
-        min_val_str=min_val_str.replace(',','')
+        info('Search_Space           = %1.3e' % self.num_configs)
+        info('Number_of_Parameters   = %02d' % self.num_params)
+        info('Numeric_Parameters     = %02d' % self.num_int)
+        info('Binary_Parameters      = %02d' % self.num_bin)
+        info('Categorical_Parameters = %02d' % self.num_categorical)
         
-
-        max_vals=[len(v)-1 for v in axis_val_ranges]
-        max_val_str="%s" % max_vals
-        max_val_str=max_val_str.replace('True','1')
-        max_val_str=max_val_str.replace('[','')
-        max_val_str=max_val_str.replace(']','')
-        max_val_str=max_val_str.replace(',','')
-        
-
-        info('Search_Space         = %1.3e' % self.num_configs)
-        info('Number_of_Parameters = %02d' % self.num_params)
-        info('Numeric_Parameters   = %02d' % self.num_int)
-        info('Binary_Parameters    = %02d' % self.num_bin)
-        
-        sys.stderr.write('%s\n'% Globals().configfile)   
-        
-#       Azamat on June 10, 2013: commenting this block out until further notice of its use, need a tighter if-condition
-#        if Globals().configfile=='':
-#            srcfilename=Globals().src_filenames.keys()[0]
-#            nomadfile=srcfilename+'.nomad'
-#            nomadfileobj=srcfilename+'.nomad.obj.exe'
-#            
-#            spec_string ="DIMENSION      %02d\n" % (self.num_params)
-#            spec_string+="BB_EXE         %s\n"% nomadfileobj 
-#            spec_string+="BB_INPUT_TYPE  ( %s )\n" % ' '.join(ptype)
-#            spec_string+="BB_OUTPUT_TYPE OBJ CNT_EVAL \n"
-#            spec_string+="X0             ( %s )\n" % min_val_str
-#            spec_string+="LOWER_BOUND    ( %s )\n" % min_val_str
-#            spec_string+="UPPER_BOUND    ( %s )\n" % max_val_str
-#            spec_string+="MAX_BB_EVAL    %s\n" % 1000
-#            spec_string+="DISPLAY_STATS  BBE OBJ EVAL\n"
-#            spec_string+="SEED    1\n" 
-#    
-#            f = open(nomadfile, 'w')
-#            f.write(spec_string)
-#            f.close()
-#
-#            scriptstr="#!/bin/bash\n"
-#            scriptstr=scriptstr+"orcc -x %s --configfile=$1\n" % srcfilename
-#        
-#            f = open(nomadfileobj, 'w')
-#            f.write(scriptstr)
-#            f.close()
-#            #system()
-#            os.system("chmod +x %s" % nomadfileobj)
+        sys.stderr.write('%s\n'% Globals().configfile)
 
         return (axis_names, axis_val_ranges)
-    
-    def __sort(self, prange):
-        # Remove duplications and then perform sorting
-        n_prange = []
-        for r in prange:
-            if r not in n_prange:
-                n_prange.append(r)
-        prange = n_prange
-        prange.sort()
-        return prange
 

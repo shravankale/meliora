@@ -4,6 +4,7 @@
 
 import re, sys
 from orio.main.util.globals import *
+from functools import reduce
 
 #-----------------------------------------------------
 SEQ_TIMER = '''
@@ -431,6 +432,47 @@ int main(int argc, char *argv[]) {
   return 0;
 }
 '''
+
+#----------------------------------------------------------------------------------------------------------------------
+SEQ_DEFAULT_OPENCL = r'''
+#include <stdio.h> 
+#include <stdlib.h> 
+#include <sys/time.h> 
+
+#define ORIO_OPENCL 1
+
+/*@ global @*/ 
+/*@ external @*/
+
+//int main(int argc, char * argv[])  { // part of declaration generation
+  /*@ declarations @*/
+  /*@ prologue @*/ 
+
+  int orio_i;
+  
+  /*
+   Coordinate: /*@ coordinate @*/ 
+  */
+  
+  /*@ begin outer measurement @*/
+  for (orio_i=0; orio_i<ORIO_REPS; orio_i++) 
+  { 
+    /*@ begin inner measurement @*/
+     
+    /*@ tested code @*/
+    
+    /*@ end inner measurement @*/
+    if (orio_i==0) {
+      /*@ validation code @*/
+    }
+  } 
+  
+  /*@ end outer measurement @*/
+  
+  /*@ epilogue @*/ 
+  return 0; 
+}
+'''
 #----------------------------------------------------------------------------------------------------------------------
 
 #-----------------------------------------------------
@@ -506,19 +548,19 @@ class PerfTestSkeletonCode:
             
         match_obj = re.search(self.__BEGIN_INNER_MEASURE_TAG, code)
         if not match_obj:
-            err('main.tuner.skeleton_code: missing "begin inner measurement" tag in the skeleton code')
+            warn('main.tuner.skeleton_code: missing "begin inner measurement" tag in the skeleton code')
 
         match_obj = re.search(self.__END_INNER_MEASURE_TAG,code)
         if not match_obj:
-            err('main.tuner.skeleton_code: missing "end inner measurement" tag in the skeleton code')
+            warn('main.tuner.skeleton_code: missing "end inner measurement" tag in the skeleton code')
 
         match_obj = re.search(self.__BEGIN_OUTER_MEASURE_TAG, code)
         if not match_obj:
-            err('main.tuner.skeleton_code: missing "begin outer measurement" tag in the skeleton code')
+            warn('main.tuner.skeleton_code: missing "begin outer measurement" tag in the skeleton code')
 
         match_obj = re.search(self.__END_OUTER_MEASURE_TAG,code)
         if not match_obj:
-            err('main.tuner.skeleton_code: missing "end outer measurement" tag in the skeleton code')
+            warn('main.tuner.skeleton_code: missing "end outer measurement" tag in the skeleton code')
 
 
         match_obj = re.search(self.__VALIDATION_TAG, code)
@@ -623,7 +665,7 @@ class PerfTestSkeletonCode:
             
         # insert the sequential code
         else:
-            ((coord_key, (tcode, externals)),) = tested_code_map.items()
+            ((coord_key, (tcode, externals)),) = list(tested_code_map.items())
             # TODO: customizable timing code for parallel cases
             code = re.sub(self.__BEGIN_INNER_MEASURE_TAG, begin_inner_measure_code, code)
             code = re.sub(self.__END_INNER_MEASURE_TAG, re.sub(self.__COORD_TAG, coord_key, end_inner_measure_code), code)
@@ -758,7 +800,7 @@ class PerfTestSkeletonCodeFortran:
             
         # insert the sequential code
         else:
-            ((coord_key, tcode),) = tested_code_map.items()
+            ((coord_key, tcode),) = list(tested_code_map.items())
             code = re.sub(self.__COORD_TAG, coord_key, code)
             code = re.sub(self.__TCODE_TAG, tcode, code)
 

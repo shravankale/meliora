@@ -1,1 +1,0 @@
-{"size_N": 1000000, "all_costs": [0.00641143, 0.00639843, 0.00647151, 0.00631212, 0.00638061], "mean_transfer": Infinity, "LastCounter": 40, "SourceName": "axpy5.c", "loop_transformations": [], "coordinate": [9, 3], "average_cost": 0.006390667500000001, "CFLAGS": "-O3", "src_filenames": "axpy5.c", "UF": 10}

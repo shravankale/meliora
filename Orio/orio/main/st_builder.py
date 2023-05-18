@@ -1,7 +1,8 @@
 #
 # A module to build a symbol table from a C source file.
 #
-from parsers.pycparser import c_parser, c_ast, parse_file
+from .parsers.pycparser import c_parser, c_ast, parse_file
+from orio.main.util.globals import *
 
 
 class STBuilder(c_ast.NodeVisitor):
@@ -10,10 +11,10 @@ class STBuilder(c_ast.NodeVisitor):
         self.st = {}
 
     def generic_visit(self, n):
-        print('generic:', type(n))
+        debug('[orio.main.st_builder: generic: %s' % str(type(n)), obj=self, level=6)
         for c in n.children():
             childst = self.visit(c)
-            print('c_st:', childst)
+            debug('[orio.main.st_builder: c_st: %s' % str(childst), obj=self, level=6)
             self.st.update(childst)
 
     def visit_IdentifierType(self, n):
@@ -21,19 +22,19 @@ class STBuilder(c_ast.NodeVisitor):
         return ' '.join(n.names)
 
     def visit_Decl(self, n):
-        print('visit_Decl: %s, %s' % (n.name, n.type))
+        debug('[orio.main.st_builder: visit_Decl: %s, %s' % (n.name, n.type), obj=self, level=6)
         
         self._generate_type(n.type)
         
         return {n.name : 'mytype'}
     
     def visit_FuncDef(self, n):
-        print('visit_FuncDef: %s at %s' % (n.decl.name, n.decl.coord))
+        print(('visit_FuncDef: %s at %s' % (n.decl.name, n.decl.coord)))
         decl = self.visit(n.decl)
         old_st = self.st.copy()
         self.st.update(decl)
         body = self.visit(n.body)
-        print('local st:', body)
+        debug('[orio.main.st_builder: local st: %s' % str(body), obj=self, level=6)
         self.st = old_st
         return {n.decl.name: 'void'}
         
@@ -44,7 +45,7 @@ class STBuilder(c_ast.NodeVisitor):
             generation from it.
         """
         typ = type(n)
-        print('_generate_type:', typ)
+        print(('_generate_type:', typ))
         #~ print(n, modifiers)
         
         if typ == c_ast.TypeDecl:
@@ -69,7 +70,7 @@ class STBuilder(c_ast.NodeVisitor):
                 elif isinstance(modifier, c_ast.PtrDecl):
                     nstr = '*' + nstr
             if nstr: s += ' ' + nstr
-            print('_generate_type returning:', nstr, s)
+            print(('_generate_type returning:', nstr, s))
             return {nstr: s}
         elif typ == c_ast.Decl:
             return self._generate_decl(n.type)

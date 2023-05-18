@@ -3,7 +3,7 @@
 #
 
 import random, re
-import skeleton_code 
+from . import skeleton_code 
 from orio.main.util.globals import *
 from orio.main.tuner.skeleton_code import SEQ_TIMER
 
@@ -70,7 +70,7 @@ class PerfTestCodeGen(object):
 
         # generate the input variable declarations inside main()
         decls = []
-        for is_static, vtype, vname, vdims, rhs in input_decls:
+        for is_static, is_managed, vtype, vname, vdims, rhs in input_decls:
 
             #TODO: handle structs (look for period in vname)
             if vtype == 'macro':
@@ -83,6 +83,10 @@ class PerfTestCodeGen(object):
                     if rhs.startswith('{'):
                       dim_code += '='+rhs
                     decls.append('%s %s%s;' % (vtype, vname, dim_code))
+                elif is_managed:
+                    # TODO  check language and change lines below to maanged memory allocation
+                    ptr_code = '*' * len(vdims)
+                    decls.append('%s %s%s;' % (vtype, ptr_code, vname))
                 else:
                     ptr_code = '*' * len(vdims)
                     decls.append('%s %s%s;' % (vtype, ptr_code, vname))
@@ -101,9 +105,9 @@ class PerfTestCodeGen(object):
 
         # generate iteration variables
         max_dim = 0
-        for _,_,_,vdims,_ in input_decls:
+        for _, _, _, _, vdims, _ in input_decls:
             max_dim = max(max_dim, len(vdims))
-        iter_vars = map(lambda x: 'i%s' % x, range(1, max_dim+1))
+        iter_vars = ['i%s' % x for x in range(1, max_dim+1)]
 
         # generate code for the declaration of the iteration variables
         if len(iter_vars) == 0:
@@ -113,7 +117,7 @@ class PerfTestCodeGen(object):
         
         # generate memory allocations for dynamic input arrays
         mallocs = []
-        for is_static, vtype, vname, vdims, rhs in input_decls:                 
+        for is_static, is_managed, vtype, vname, vdims, rhs in input_decls:
             
             if len(vdims) > 0 and not is_static:
                 for i in range(0, len(vdims)):
@@ -151,7 +155,7 @@ class PerfTestCodeGen(object):
     def __genDAllocs(self, input_decls):
 
         dalloc_code = ''
-        for is_static, _, vname, vdims, _ in input_decls:                 
+        for is_static, is_managed, _, vname, vdims, _ in input_decls:
           if len(vdims) > 0 and not is_static:
             dalloc_code += '  free('+vname+');'+r'\n';
         
@@ -167,9 +171,9 @@ class PerfTestCodeGen(object):
 
         # generate iteration variables
         max_dim = 0
-        for _,_,_,vdims,_ in input_decls:
+        for _, _, _, _, vdims, _ in input_decls:
             max_dim = max(max_dim, len(vdims))
-        iter_vars = map(lambda x: 'i%s' % x, range(1, max_dim+1))
+        iter_vars = ['i%s' % x for x in range(1, max_dim+1)]
 
         # generate code for the declaration of the iteration variables
         if len(iter_vars) == 0:
@@ -179,7 +183,7 @@ class PerfTestCodeGen(object):
         
         # generate array value initializations
         inits = []
-        for _, vtype, vname, vdims, rhs in input_decls:
+        for _, _, vtype, vname, vdims, rhs in input_decls:
 
             # skip if it does not have an initial value (i.e. RHS == None)
             if rhs == None or rhs.startswith('{'):
@@ -341,14 +345,20 @@ const char *__wattprof_conf_file = "1_conf.rnp";
         else:
             init_code = 'void %s() {\n%s\n}\n' % (self.init_func_name, self.init_code)
 
-        init_code += 'int main (int argc, char *argv[]) {\n'
-        # Default timing code
-        begin_inner_measure_code = 'orio_t_start = getClock();'
-        end_inner_measure_code = '''
+        if Globals().language != 'cuda':
+            init_code += 'int main (int argc, char *argv[]) {\n'
+
+            # Default timing code
+            begin_inner_measure_code = 'orio_t_start = getClock();'
+            end_inner_measure_code = '''
     orio_t_end = getClock();
     orio_t = orio_t_end - orio_t_start;
     printf("{'/*@ coordinate @*/' : %g}\\\\n", orio_t);
     '''
+        else:
+            begin_inner_measure_code = ''
+            end_inner_measure_code = ''
+
         begin_outer_measure_code = ''
         end_outer_measure_code = ''
         if self.power:
@@ -398,7 +408,7 @@ const char *__wattprof_conf_file = "1_conf.rnp";
             prologue_code += ('%s();' % self.malloc_func_name) + '\n  '
         prologue_code += ('%s();' % self.init_func_name) + '\n'
         if Globals().language == 'opencl':
-            for (k, v) in Globals().metadata.iteritems():
+            for (k, v) in Globals().metadata.items():
                 prologue_code += 'TAU_METADATA("%s", "%s");\n' % (k, v)
                 
         if self.power: 
@@ -520,18 +530,19 @@ class PerfTestCodeGenFortran:
         
         # generate iteration variables
         max_dim = 0
-        for _,_,_,vdims,_ in input_decls:
+        for _, _, _, _,vdims,_ in input_decls:
             max_dim = max(max_dim, len(vdims))
-        iter_vars = map(lambda x: 'i%s' % x, range(1, max_dim+1))        
+        iter_vars = ['i%s' % x for x in range(1, max_dim+1)]        
         # generate code for the declaration of the iteration variables
         if len(iter_vars) == 0:
             ivars_decl_code = ''
         else:
             ivars_decl_code = 'integer :: %s' % ', '.join(iter_vars)
 
-        for is_static, vt, vname, vdims, rhs in input_decls:
+        for is_static, is_managed, vt, vname, vdims, rhs in input_decls:
             
             if vt in ['single','double']: vtype = 'real(%s)' % vt
+            elif vt == 'complex': vtype = 'cuComplex'
             elif vt == 'int': vtype = 'integer'
             else: vtype = vt
             
@@ -562,7 +573,7 @@ class PerfTestCodeGenFortran:
         
         # generate memory allocations for dynamic input arrays
         mallocs = []
-        for is_static, vt, vname, vdims, rhs in input_decls:
+        for is_static, is_manged, vt, vname, vdims, rhs in input_decls:
 
             if len(vdims) > 0 and not is_static:
                 dim_code = '(%s)' % ')('.join(vdims)
@@ -587,13 +598,13 @@ class PerfTestCodeGenFortran:
 
         # generate iteration variables
         max_dim = 0
-        for _,_,_,vdims,_ in input_decls:
+        for _,_,_,_,vdims,_ in input_decls:
             max_dim = max(max_dim, len(vdims))
-        iter_vars = map(lambda x: 'i%s' % x, range(1, max_dim+1))
+        iter_vars = ['i%s' % x for x in range(1, max_dim+1)]
         
         # generate array value initializations
         inits = []
-        for _, vt, vname, vdims, rhs in input_decls:
+        for _, _, vt, vname, vdims, rhs in input_decls:
 
             if vt in ['single','double']: vtype = 'real(%s)' % vt
             elif vt == 'int': vtype = 'integer'

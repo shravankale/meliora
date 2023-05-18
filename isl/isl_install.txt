@@ -1,0 +1,1 @@
+./configure --prefix=/home/users/shravank/projects/meliora2/Meliora/isl/isl_from_src/install --with-int=imath --with-clang-prefix=/home/users/shravank/libs/llvm-14-meliora

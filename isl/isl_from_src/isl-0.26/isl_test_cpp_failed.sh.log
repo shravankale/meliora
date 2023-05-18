@@ -1,0 +1,41 @@
+make[5]: Entering directory '/disks/large/home/users/shravank/projects/meliora2/Meliora/isl/isl_from_src/isl-0.26'
+make[5]: warning: jobserver unavailable: using -j1.  Add '+' to parent make rule.
+  CXX      isl_test_cpp_failed-isl_test_cpp.o
+isl_test_cpp.cc: In function ‘void test_typed(isl::ctx)’:
+isl_test_cpp.cc:338:31: error: no matching function for call to ‘isl::typed::map<test_typed(isl::ctx)::ST, test_typed(isl::ctx)::AR>::intersect_range(isl::typed::set<test_typed(isl::ctx)::ST>&)’
+  338 |         access.intersect_range(instances);
+      |         ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+In file included from isl_test_cpp.cc:18:
+./include/isl/typed_cpp.h:22885:27: note: candidate: ‘isl::typed::map<Domain, Range> isl::typed::map<Domain, Range>::intersect_range(const isl::typed::set<Range>&) const [with Domain = test_typed(isl::ctx)::ST; Range = test_typed(isl::ctx)::AR]’
+22885 | typed::map<Domain, Range> typed::map<Domain, Range>::intersect_range(const typed::set<Range> &set) const
+      |                           ^~~~~
+./include/isl/typed_cpp.h:22885:95: note:   no known conversion for argument 1 from ‘isl::typed::set<test_typed(isl::ctx)::ST>’ to ‘const isl::typed::set<test_typed(isl::ctx)::AR>&’
+22885 | typed::map<Domain, Range> typed::map<Domain, Range>::intersect_range(const typed::set<Range> &set) const
+      |                                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+./include/isl/typed_cpp.h:22892:33: note: candidate: ‘isl::typed::union_map<Domain, Range> isl::typed::map<Domain, Range>::intersect_range(const isl::typed::space<Range>&) const [with Domain = test_typed(isl::ctx)::ST; Range = test_typed(isl::ctx)::AR]’
+22892 | typed::union_map<Domain, Range> typed::map<Domain, Range>::intersect_range(const typed::space<Range> &space) const
+      |                                 ^~~~~
+./include/isl/typed_cpp.h:22892:103: note:   no known conversion for argument 1 from ‘isl::typed::set<test_typed(isl::ctx)::ST>’ to ‘const isl::typed::space<test_typed(isl::ctx)::AR>&’
+22892 | typed::union_map<Domain, Range> typed::map<Domain, Range>::intersect_range(const typed::space<Range> &space) const
+      |                                                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+./include/isl/typed_cpp.h:22899:33: note: candidate: ‘isl::typed::union_map<Domain, Range> isl::typed::map<Domain, Range>::intersect_range(const isl::typed::union_set<Range>&) const [with Domain = test_typed(isl::ctx)::ST; Range = test_typed(isl::ctx)::AR]’
+22899 | typed::union_map<Domain, Range> typed::map<Domain, Range>::intersect_range(const typed::union_set<Range> &uset) const
+      |                                 ^~~~~
+./include/isl/typed_cpp.h:22899:107: note:   no known conversion for argument 1 from ‘isl::typed::set<test_typed(isl::ctx)::ST>’ to ‘const isl::typed::union_set<test_typed(isl::ctx)::AR>&’
+22899 | typed::union_map<Domain, Range> typed::map<Domain, Range>::intersect_range(const typed::union_set<Range> &uset) const
+      |                                                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+./include/isl/typed_cpp.h:22906:27: note: candidate: ‘isl::typed::map<Domain, Range> isl::typed::map<Domain, Range>::intersect_range(const isl::typed::basic_set<Range>&) const [with Domain = test_typed(isl::ctx)::ST; Range = test_typed(isl::ctx)::AR]’
+22906 | typed::map<Domain, Range> typed::map<Domain, Range>::intersect_range(const typed::basic_set<Range> &set) const
+      |                           ^~~~~
+./include/isl/typed_cpp.h:22906:101: note:   no known conversion for argument 1 from ‘isl::typed::set<test_typed(isl::ctx)::ST>’ to ‘const isl::typed::basic_set<test_typed(isl::ctx)::AR>&’
+22906 | typed::map<Domain, Range> typed::map<Domain, Range>::intersect_range(const typed::basic_set<Range> &set) const
+      |                                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+./include/isl/typed_cpp.h:22913:27: note: candidate: ‘isl::typed::map<Domain, Range> isl::typed::map<Domain, Range>::intersect_range(const isl::typed::point<Range>&) const [with Domain = test_typed(isl::ctx)::ST; Range = test_typed(isl::ctx)::AR]’
+22913 | typed::map<Domain, Range> typed::map<Domain, Range>::intersect_range(const typed::point<Range> &set) const
+      |                           ^~~~~
+./include/isl/typed_cpp.h:22913:97: note:   no known conversion for argument 1 from ‘isl::typed::set<test_typed(isl::ctx)::ST>’ to ‘const isl::typed::point<test_typed(isl::ctx)::AR>&’
+22913 | typed::map<Domain, Range> typed::map<Domain, Range>::intersect_range(const typed::point<Range> &set) const
+      |                                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+make[5]: *** [Makefile:2042: isl_test_cpp_failed-isl_test_cpp.o] Error 1
+make[5]: Leaving directory '/disks/large/home/users/shravank/projects/meliora2/Meliora/isl/isl_from_src/isl-0.26'
+PASS isl_test_cpp_failed.sh (exit status: 0)

@@ -1,9 +1,0 @@
-dgemv
-mm
-stencil3d
-covariance
-gemver
-bicgkernel
-axpy
-mvt
-mv

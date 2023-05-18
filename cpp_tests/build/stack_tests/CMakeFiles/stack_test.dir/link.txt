@@ -1,0 +1,1 @@
+/home/users/shravank/libs/llvm-14-meliora/bin/clang++ -O2 -g -DNDEBUG -rdynamic CMakeFiles/stack_test.dir/src/stack_test.cpp.o -o stack_test 

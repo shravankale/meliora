@@ -41,9 +41,8 @@ class Randomlocal(orio.main.tuner.search.search.Search):
 
         # complain if both the search time limit and the total number of search runs are undefined
         if self.time_limit <= 0 and self.total_runs <= 0:
-            err((
-                            'orio.main.tuner.search.randomlocal.randomlocal: %s search requires either (both) the search time limit or (and) the ' +
-                            'total number of search runs to be defined') % self.__class__.__name__)
+            err(('orio.main.tuner.search.randomlocal.randomlocal: %s search requires the search time limit (time_limit, seconds) and/or the ' +
+                'total number of search runs (total_runs) to be defined') % self.__class__.__name__)
 
     # Method required by the search interface
     def searchBestCoord(self, startCoord=None):
@@ -109,13 +108,12 @@ class Randomlocal(orio.main.tuner.search.search.Search):
             # sys.exit()
             try:
                 perf_costs = self.getPerfCosts(coords)
-            except Exception, e:
+            except Exception as e:
                 perf_costs[str(coords[0])] = [self.MAXFLOAT]
                 info('FAILED: %s %s' % (e.__class__.__name__, e))
                 fruns += 1
             # compare to the best result
-            pcost_items = perf_costs.items()
-            pcost_items.sort(lambda x, y: cmp(eval(x[0]), eval(y[0])))
+            pcost_items = sorted(list(perf_costs.items()))
             for i, (coord_str, pcost) in enumerate(pcost_items):
                 if type(pcost) == tuple:
                     (perf_cost, _) = pcost  # ignore transfer costs -- GPUs only
@@ -151,8 +149,8 @@ class Randomlocal(orio.main.tuner.search.search.Search):
                 pcosts = '[]'
                 if perf_cost and len(perf_cost) > 1:
                     pcosts = '[' + ', '.join(["%2.4e" % x for x in perf_cost]) + ']'
-                msgstr1 = '(run %d) sruns: %d, fruns: %d, coordinate: %s, perf_params: %s, ' % \
-                          (runs + i, sruns, fruns, str(coord_val), str(perf_params))
+                msgstr1 = '(run %d) | %s | sruns: %d, fruns: %d, coordinate: %s, perf_params: %s, ' % \
+                          (runs + i, str(datetime.datetime.now()), sruns, fruns, str(coord_val), str(perf_params))
                 msgstr2 = 'transform_time: %2.4e, compile_time: %2.4e, cost: %s' % \
                           (transform_time, compile_time, pcosts)
                 info(msgstr1 + msgstr2)
@@ -187,7 +185,7 @@ class Randomlocal(orio.main.tuner.search.search.Search):
         '''To read all algorithm-specific arguments'''
 
         # check for algorithm-specific arguments
-        for vname, rhs in self.search_opts.iteritems():
+        for vname, rhs in self.search_opts.items():
 
             # local search distance
             if vname == self.__LOCAL_DIST:

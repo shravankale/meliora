@@ -1,6 +1,0 @@
-/home/users/kewen/bsAnalysis/depAnalysis/repo/CFGPass/build/CMakeFiles/rebuild_cache.dir
-/home/users/kewen/bsAnalysis/depAnalysis/repo/CFGPass/build/CMakeFiles/intrinsics_gen.dir
-/home/users/kewen/bsAnalysis/depAnalysis/repo/CFGPass/build/CMakeFiles/edit_cache.dir
-/home/users/kewen/bsAnalysis/depAnalysis/repo/CFGPass/build/cfgpass/CMakeFiles/rebuild_cache.dir
-/home/users/kewen/bsAnalysis/depAnalysis/repo/CFGPass/build/cfgpass/CMakeFiles/CfgPass.dir
-/home/users/kewen/bsAnalysis/depAnalysis/repo/CFGPass/build/cfgpass/CMakeFiles/edit_cache.dir

@@ -19,7 +19,8 @@ Options:
                                  Orio-built code, e.g., tau_exec
   --post-command=<string>        Command string to run after each execution of Orio-built code,
                                  e.g., taudb_loadtrial
-  -d, --debug                    Enable debugging output
+  -d <level>, --debug=<level>    Enable debugging output [default off], level is an int between 
+                                 1 and 6 indicating the level of verbosity.
   -e, --erase-annot              remove annotations from the output
   -h, --help                     display this message
   -o <file>, --output=<file>     place the output in <file> (only valid when processing 
@@ -30,6 +31,8 @@ Options:
                                  files to be the same as those that would result from compiling
                                  the original source code
   -s <file>, --spec=<file>       read tuning specifications from <file>
+  --search="searchalg;opt1=val1;..." Search algorithm and its options; overrides tuning spec search
+                                 section entries, e.g., --search="Mlsearch;total_runs=100"
   --stop-on-error                exit with an error code when first exception occurs
   -x, --external                 run orio in external mode
   --config=<p1:v1,p2:v2,..>      configurations for external mode
@@ -37,11 +40,14 @@ Options:
   -v, --verbose                  verbosely show details of the results of the running program
   --validate                     validate by comparing output of original and transformed codes
   --meta                         export metadata as json
+  --marker-loops                 developer-only option, can interfere with performance
 
 environment variables: 
   ORIO_FLAGS                     the string value is used to augment the list of Orio command-lin
                                  options
   ORIO_DEBUG                     when set, print debugging information (orio.main.y for developer use)
+  ORIO_DEBUG_LEVEL               integer value between 1 and 6 indicating the level of debugging output
+                                 verbosity
                                  
 For more details, please refer to the documentation at https://trac.mcs.anl.gov/projects/performance/wiki/OrioUserGuide
 ''' % os.path.basename(sys.argv[0])
@@ -118,16 +124,19 @@ class CmdParser:
                 index += 1
 
         # check the ORIO_FLAGS env. variable for more options
-        if 'ORIO_FLAGS' in os.environ.keys():
+        if 'ORIO_FLAGS' in list(os.environ.keys()):
             orioargv.extend(os.environ['ORIO_FLAGS'].split())
 
         # get all options
         try:
             opts, args = getopt.getopt(orioargv,
-                                       'c:dehko:p:rs:vx',
-                                       ['pre-command=','debug','config=','configfile=', 'erase-annot', 'help', 'keep-temps',' output=', 
-                                        'output-prefix=', 'rename-objects',  'spec=', 'stop-on-error', 'verbose', 'extern', 'validate', 'post-command=', 'meta'])
-        except Exception, e:
+                                       'c:d:ehko:p:rs:vx',
+                                       ['pre-command=','debug=','config=','configfile=', 'erase-annot', 'help', 'keep-temps',' output=',
+                                        'output-prefix=', 'rename-objects',  'spec=', 'verbose', 'extern',
+                                        'stop-on-error', 'search=',
+                                        'validate', 'post-command=', 'meta', 'marker-loops',
+                                        'logdir='])
+        except Exception as e:
             sys.stderr.write('Orio command-line error: %s' % e)
             sys.stderr.write(USAGE_MSG + '\n')
             sys.exit(1)
@@ -137,7 +146,7 @@ class CmdParser:
             if opt in ('-c', '--pre-command'):
                 cmdline['pre_cmd'] = arg
             elif opt in ('-d', '--debug'):
-                cmdline['debug'] = True
+                cmdline['debug'] = arg
             elif opt in ('--post-command'):
                 cmdline['post_cmd'] = arg
             elif opt in ('-e', '--erase-annot'):
@@ -155,6 +164,8 @@ class CmdParser:
                 cmdline['rename_objects'] = True
             elif opt in ('-s', '--spec'):
                 cmdline['spec_filename'] = arg
+            elif opt in('--search'):
+                cmdline['search'] = arg     # --search="searchalg;opt1=val1;..." 
             elif opt in ('-v', '--verbose'):
                 cmdline['verbose'] = True
             elif opt in ('-x','--extern'):
@@ -169,6 +180,10 @@ class CmdParser:
                 cmdline['meta'] = True
             elif opt in ('--stop-on-error'):
                 cmdline['stop-on-error'] = True
+            elif opt in ('--marker-loops'):
+                cmdline['marker-loops'] = True  # generate fake loops for Meliora
+            elif opt in ('--logdir'):
+                cmdline['logdir'] = arg   # tuning logs directory
                 
         # check on the arguments
         if len(srcfiles) < 1:
@@ -187,7 +202,7 @@ class CmdParser:
                 sys.stderr.write('orio.main.cmd_line_opts: cannot open source file for reading: %s' % src_filename)
                 sys.exit(1)
 
-        if 'spec_filename' in cmdline.keys(): spec_filename = cmdline['spec_filename']
+        if 'spec_filename' in list(cmdline.keys()): spec_filename = cmdline['spec_filename']
         else: spec_filename = None
         # check if the tuning specification file is readable
         if spec_filename:
@@ -199,12 +214,12 @@ class CmdParser:
                 sys.exit(1)
 
         # create the output filenames
-        if len(srcfiles.keys()) == 1 and 'out_filename' in cmdline.keys(): 
-            srcfiles[srcfiles.keys()[0]] = cmdline['out_filename']
+        if len(list(srcfiles.keys())) == 1 and 'out_filename' in list(cmdline.keys()): 
+            srcfiles[list(srcfiles.keys())[0]] = cmdline['out_filename']
         else:
-            for src_filename in srcfiles.keys():
+            for src_filename in list(srcfiles.keys()):
                 dirs, fname = os.path.split(src_filename)
-                if 'out_prefix' in cmdline.keys(): out_prefix=cmdline['out_prefix']
+                if 'out_prefix' in list(cmdline.keys()): out_prefix=cmdline['out_prefix']
                 else: out_prefix = '_'
                 srcfiles[src_filename] = os.path.join(dirs, out_prefix + fname)
 

@@ -5,14 +5,16 @@
 import sys
 from orio.main.util.globals import *
 import orio.module.loop.ast, orio.module.loop.ast_lib.constant_folder, orio.module.loop.ast_lib.forloop_lib
-import orio.module.loop.ast_lib.common_lib, semant
+import orio.module.loop.ast_lib.common_lib
+from orio.module.loop.submodule.regtile import semant
+from functools import reduce
 
 #-----------------------------------------
 
 class Transformation:
     '''Code transformation implementation'''
 
-    __ivar_suffix = 't'
+    __ivar_suffix = '_rtile'
     __newlb_prefix = 'newlb_'
     __newub_prefix = 'newub_'
     __int_min = '-2147483648'
@@ -27,9 +29,9 @@ class Transformation:
         self.ufactors = ufactors
         self.stmt = stmt
 
-        self.ufactor_map = dict(zip(self.loops, self.ufactors))
-        self.itvar_map = dict(zip(self.loops, [l+self.__ivar_suffix for l in self.loops]))
-        self.itvar_map_rev = dict(zip([l+self.__ivar_suffix for l in self.loops], self.loops))
+        self.ufactor_map = dict(list(zip(self.loops, self.ufactors)))
+        self.itvar_map = dict(list(zip(self.loops, [l+self.__ivar_suffix for l in self.loops])))
+        self.itvar_map_rev = dict(list(zip([l+self.__ivar_suffix for l in self.loops], self.loops)))
 
         self.flib = orio.module.loop.ast_lib.forloop_lib.ForLoopLib()
         self.cfolder = orio.module.loop.ast_lib.constant_folder.ConstFolder()
@@ -209,6 +211,7 @@ class Transformation:
                                             new_stride_exp, mloop_body)
 
         # generate the cleanup loop
+        loop.meta['declare_vars_outside'] = [mloop_index_id.name]
         cleanup_loop = self.flib.createForLoop(cloop_index_id, mloop_index_id, ubound_exp,
                                                stride_exp, loop_body)
         
@@ -297,7 +300,7 @@ class Transformation:
                     stmts.append([ns])
             # this is to preserve the order of original statements
             if (stmts!=[] and isinstance(stmts[0],list)): # zip any nested lists
-                tuples = zip(*stmts)                      # by peeling one element from each
+                tuples = list(zip(*stmts))                      # by peeling one element from each
                 zipped = []
                 for atuple in tuples:
                     zipped += list(atuple)

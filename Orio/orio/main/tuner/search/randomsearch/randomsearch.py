@@ -45,8 +45,8 @@ class Randomsearch(orio.main.tuner.search.search.Search):
         self.init_samp = 2*self.total_runs   # BN: used to be hard-coded to 10,000
         # complain if both the search time limit and the total number of search runs are undefined
         if self.time_limit <= 0 and self.total_runs <= 0:
-            err(('orio.main.tuner.search.randomsearch.randomsearch: %s search requires either (or both) ' +
-                 'of the search parameters time limit in seconds (time_limit) or/and the ' +
+            err(('orio.main.tuner.search.randomsearch.randomsearch: %s search requires  ' +
+                 'the search parameters time limit in seconds (time_limit) and/or the ' +
                  'total number of search runs (total_runs) to be defined in the search {} section' +
                  'of the tuning spec.') % self.__class__.__name__)
 
@@ -113,12 +113,11 @@ class Randomsearch(orio.main.tuner.search.search.Search):
                     continue
                 # test if the performance parameters are valid
                 perf_params = self.coordToPerfParams(coord)
-                #print perf_params
                 perf_params1=copy.copy(perf_params)
 
                 try:
                     is_valid = eval(self.constraint, perf_params1, dict(self.input_params))
-                except Exception, e:
+                except Exception as e:
                     err('failed to evaluate the constraint expression: "%s"\n%s %s' % (self.constraint,e.__class__.__name__, e))
                 # if invalid performance parameters
                 if not is_valid:
@@ -141,7 +140,7 @@ class Randomsearch(orio.main.tuner.search.search.Search):
         eval_cost = []
         num_eval_best=0
 
-        indices=random.sample(range(1,len(uneval_coords)),  self.total_dims)
+        indices=random.sample(list(range(1,len(uneval_coords))),  self.total_dims)
         indices.insert(0,0)
         debug(msg='Current indices: ' + str(indices), obj=self, level=2)
         
@@ -166,14 +165,13 @@ class Randomsearch(orio.main.tuner.search.search.Search):
             perf_costs={}
             try:
                 perf_costs = self.getPerfCosts([coord])
-            except Exception, e:
+            except Exception as e:
                 perf_costs[str(coords)]=[self.MAXFLOAT]
                 info('FAILED: %s %s' % (e.__class__.__name__, e))
                 fruns +=1
 
             # compare to the best result
-            pcost_items = perf_costs.items()
-            pcost_items.sort(lambda x,y: cmp(eval(x[0]),eval(y[0])))
+            pcost_items = sorted(list(perf_costs.items()))
             for i, (coord_str, pcost) in enumerate(pcost_items):
                 if type(pcost) == tuple: (perf_cost,_) = pcost    # ignore transfer costs -- GPUs only
                 else: perf_cost = pcost
@@ -196,7 +194,8 @@ class Randomsearch(orio.main.tuner.search.search.Search):
             res_obj['transform_time']=transform_time
             res_obj['compile_time']=compile_time
             res_obj['cost']=perf_cost
-            info('(run %s) | '%runs+json.dumps(res_obj))
+            info('(run %s) | %s | ' % (runs,datetime.datetime.now()) + json.dumps(res_obj))
+
             #info('run %s | coordinate: %s | perf_params: %s | transform_time: %s | compile_time: %s | cost: %s' % (runs, coord, params, transform_time, compile_time,perf_cost))
 
             eval_cost.append(mean_perf_cost)
@@ -309,14 +308,13 @@ class Randomsearch(orio.main.tuner.search.search.Search):
             #sys.exit()
             try:
                 perf_costs = self.getPerfCosts(coords)
-            except Exception, e:
+            except Exception as e:
                 perf_costs[str(coords[0])]=[self.MAXFLOAT]
                 info('FAILED: %s %s' % (e.__class__.__name__, e))
                 fruns +=1
 
             # compare to the best result
-            pcost_items = perf_costs.items()
-            pcost_items.sort(lambda x,y: cmp(eval(x[0]),eval(y[0])))
+            pcost_items = sorted(list(perf_costs.items()))
             for i, (coord_str, pcost) in enumerate(pcost_items):
                 if type(pcost) == tuple: (perf_cost,_) = pcost    # ignore transfer costs -- GPUs only
                 else: perf_cost = pcost
@@ -350,7 +348,7 @@ class Randomsearch(orio.main.tuner.search.search.Search):
 
             if not math.isinf(mean_perf_cost):
                 sruns +=1
-                info('(run %s) sruns: %s, fruns: %s, coordinate: %s, perf_params: %s, transform_time: %s, compile_time: %s, cost: %s' % (runs+i, sruns, fruns, coord_val, perf_params, transform_time, compile_time,perf_cost))
+                info('(run %s) | %s | sruns: %s, fruns: %s, coordinate: %s, perf_params: %s, transform_time: %s, compile_time: %s, cost: %s' % (runs+i, str(datetime.datetime.now()), sruns, fruns, coord_val, perf_params, transform_time, compile_time,perf_cost))
 
 
             # check if the time is up
@@ -383,7 +381,7 @@ class Randomsearch(orio.main.tuner.search.search.Search):
         '''To read all algorithm-specific arguments'''
 
         # check for algorithm-specific arguments
-        for vname, rhs in self.search_opts.iteritems():
+        for vname, rhs in self.search_opts.items():
             debug(msg=str(vname)+'=' +str(rhs), obj=self, level=3)
             # local search distance
             if vname == self.__LOCAL_DIST:

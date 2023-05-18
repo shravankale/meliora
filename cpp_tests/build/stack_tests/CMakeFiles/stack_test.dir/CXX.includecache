@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../stack_tests/include/stack.h
+iostream
+-
+vector
+-
+
+/home/users/shravank/projects/meliora2/Meliora/cpp_tests/stack_tests/src/stack_test.cpp
+iostream
+-
+stack.h
+/home/users/shravank/projects/meliora2/Meliora/cpp_tests/stack_tests/src/stack.h
+

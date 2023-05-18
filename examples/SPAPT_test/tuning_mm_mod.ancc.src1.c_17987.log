@@ -1,0 +1,148 @@
+
+====== START ORIO: arya2022-04-21_20:45:33 ======
+
+----- begin reading the source file: mm_mod.ancc.src1.c -----
+----- finished reading the source file -----
+
+----- begin parsing annotations -----
+----- finished parsing annotations -----
+
+----- begin optimizations -----
+Search_Space           = 1.372e+09
+Number_of_Parameters   = 13
+Numeric_Parameters     = 09
+Binary_Parameters      = 04
+Categorical_Parameters = 00
+['T1_I', 'T1_J', 'T1_K', 'T1_Ia', 'T1_Ja', 'T1_Ka', 'U_I', 'U_J', 'U_K', 'SCREP', 'VEC', 'OMP', 'PAR']
+[[1, 16, 32, 64, 128, 256, 512], [1, 16, 32, 64, 128, 256, 512], [1, 16, 32, 64, 128, 256, 512], [1, 64, 128, 256, 512, 1024, 2048], [1, 64, 128, 256, 512, 1024, 2048], [1, 64, 128, 256, 512, 1024, 2048], [1, 2, 4, 6, 8, 10, 12, 14, 16], [1, 2, 4, 6, 8, 10, 12, 14, 16], [1, 2, 4, 6, 8, 10, 12, 14, 16], [False, True], [False, True], [False, True], [False, True]]
+
+----- begin empirical tuning for problem size -----
+ CONT = 500
+ K = 500
+ M = 500
+ N = 500
+ NCONT = 500
+
+----- begin random search -----
+.
+ compiling timer:
+	gcc -O3 -fopenmp  -O0 -c -o timer_cpu.o timer_cpu.c
+ building the original code:
+	gcc -O3 -fopenmp   -DORIO_REPS=10 -DORIGINAL -o __orio_perftest_original.exe __orio_perftest1.c timer_cpu.o -lm -lrt
+ building test:
+	gcc -O3 -fopenmp   -DORIO_REPS=10 -o __orio_perftest1.exe __orio_perftest1.c timer_cpu.o -lm -lrt
+orio.main.tuner.ptest_driver:  failed to apply the post-build command: "python3 /home/users/shravank/projects/meliora2/Meliora/script/meliora_driver.py -extra timer_cpu.o -lm -lrt -- __orio_perftest1.c  -DORIO_REPS=10"
+  File "../../Orio/orcc", line 20, in <module>
+    orio.main.orio_main.start(sys.argv, orio.main.orio_main.C_CPP)
+
+  File "/disks/large/home/users/shravank/projects/meliora2/Meliora/Orio/orio/main/orio_main.py", line 116, in start
+    optimized_code_seq = odriver.optimizeCodeFrags(cfrags, True)
+
+  File "/disks/large/home/users/shravank/projects/meliora2/Meliora/Orio/orio/main/opt_driver.py", line 47, in optimizeCodeFrags
+    cur_seq = self.__optimizeCodeFrag(cf, perf_params)
+
+  File "/disks/large/home/users/shravank/projects/meliora2/Meliora/Orio/orio/main/opt_driver.py", line 120, in __optimizeCodeFrag
+    optimized_code_seq = self.ptuner.tune(cfrag.leader_ann.mod_code,
+
+  File "/disks/large/home/users/shravank/projects/meliora2/Meliora/Orio/orio/main/tuner/tuner.py", line 151, in tune
+    best_perf_params, best_perf_cost = search_eng.search()
+
+  File "/disks/large/home/users/shravank/projects/meliora2/Meliora/Orio/orio/main/tuner/search/search.py", line 128, in search
+    best_coord,best_perf,search_time,runs = self.searchBestCoord(startCoord)
+
+  File "/disks/large/home/users/shravank/projects/meliora2/Meliora/Orio/orio/main/tuner/search/randomlocal/randomlocal.py", line 110, in searchBestCoord
+    perf_costs = self.getPerfCosts(coords)
+
+  File "/disks/large/home/users/shravank/projects/meliora2/Meliora/Orio/orio/main/tuner/search/search.py", line 331, in getPerfCosts
+    new_perf_costs = self.ptdriver.run(test_code, perf_params=perf_params,coord=coord_key)
+
+  File "/disks/large/home/users/shravank/projects/meliora2/Meliora/Orio/orio/main/tuner/ptest_driver.py", line 511, in run
+    if self.__build(perf_params=perf_params, coord=coord):
+
+  File "/disks/large/home/users/shravank/projects/meliora2/Meliora/Orio/orio/main/tuner/ptest_driver.py", line 309, in __build
+    err('orio.main.tuner.ptest_driver:  failed to apply the post-build command: "%s"' % cmd)
+
+  File "/disks/large/home/users/shravank/projects/meliora2/Meliora/Orio/orio/main/util/globals.py", line 349, in err
+    Globals().loggers['TuningLog'].error(errmsg + '\n' + '\n'.join(traceback.format_stack()))
+
+.
+ building the original code:
+	gcc -O3 -fopenmp   -DORIO_REPS=10 -DORIGINAL -o __orio_perftest_original.exe __orio_perftest2.c timer_cpu.o -lm -lrt
+ building test:
+	gcc -O3 -fopenmp   -DORIO_REPS=10 -o __orio_perftest2.exe __orio_perftest2.c timer_cpu.o -lm -lrt
+orio.main.tuner.ptest_driver:  failed to apply the post-build command: "python3 /home/users/shravank/projects/meliora2/Meliora/script/meliora_driver.py -extra timer_cpu.o -lm -lrt -- __orio_perftest2.c  -DORIO_REPS=10"
+  File "../../Orio/orcc", line 20, in <module>
+    orio.main.orio_main.start(sys.argv, orio.main.orio_main.C_CPP)
+
+  File "/disks/large/home/users/shravank/projects/meliora2/Meliora/Orio/orio/main/orio_main.py", line 116, in start
+    optimized_code_seq = odriver.optimizeCodeFrags(cfrags, True)
+
+  File "/disks/large/home/users/shravank/projects/meliora2/Meliora/Orio/orio/main/opt_driver.py", line 47, in optimizeCodeFrags
+    cur_seq = self.__optimizeCodeFrag(cf, perf_params)
+
+  File "/disks/large/home/users/shravank/projects/meliora2/Meliora/Orio/orio/main/opt_driver.py", line 120, in __optimizeCodeFrag
+    optimized_code_seq = self.ptuner.tune(cfrag.leader_ann.mod_code,
+
+  File "/disks/large/home/users/shravank/projects/meliora2/Meliora/Orio/orio/main/tuner/tuner.py", line 151, in tune
+    best_perf_params, best_perf_cost = search_eng.search()
+
+  File "/disks/large/home/users/shravank/projects/meliora2/Meliora/Orio/orio/main/tuner/search/search.py", line 128, in search
+    best_coord,best_perf,search_time,runs = self.searchBestCoord(startCoord)
+
+  File "/disks/large/home/users/shravank/projects/meliora2/Meliora/Orio/orio/main/tuner/search/randomlocal/randomlocal.py", line 110, in searchBestCoord
+    perf_costs = self.getPerfCosts(coords)
+
+  File "/disks/large/home/users/shravank/projects/meliora2/Meliora/Orio/orio/main/tuner/search/search.py", line 331, in getPerfCosts
+    new_perf_costs = self.ptdriver.run(test_code, perf_params=perf_params,coord=coord_key)
+
+  File "/disks/large/home/users/shravank/projects/meliora2/Meliora/Orio/orio/main/tuner/ptest_driver.py", line 511, in run
+    if self.__build(perf_params=perf_params, coord=coord):
+
+  File "/disks/large/home/users/shravank/projects/meliora2/Meliora/Orio/orio/main/tuner/ptest_driver.py", line 309, in __build
+    err('orio.main.tuner.ptest_driver:  failed to apply the post-build command: "%s"' % cmd)
+
+  File "/disks/large/home/users/shravank/projects/meliora2/Meliora/Orio/orio/main/util/globals.py", line 349, in err
+    Globals().loggers['TuningLog'].error(errmsg + '\n' + '\n'.join(traceback.format_stack()))
+
+.
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 256 must be greater than the stride value 256; tile index = kkk
+ building the original code:
+	gcc -O3 -fopenmp   -DORIO_REPS=10 -DORIGINAL -o __orio_perftest_original.exe __orio_perftest3.c timer_cpu.o -lm -lrt
+ building test:
+	gcc -O3 -fopenmp   -DORIO_REPS=10 -o __orio_perftest3.exe __orio_perftest3.c timer_cpu.o -lm -lrt
+orio.main.tuner.ptest_driver:  failed to apply the post-build command: "python3 /home/users/shravank/projects/meliora2/Meliora/script/meliora_driver.py -extra timer_cpu.o -lm -lrt -- __orio_perftest3.c  -DORIO_REPS=10"
+  File "../../Orio/orcc", line 20, in <module>
+    orio.main.orio_main.start(sys.argv, orio.main.orio_main.C_CPP)
+
+  File "/disks/large/home/users/shravank/projects/meliora2/Meliora/Orio/orio/main/orio_main.py", line 116, in start
+    optimized_code_seq = odriver.optimizeCodeFrags(cfrags, True)
+
+  File "/disks/large/home/users/shravank/projects/meliora2/Meliora/Orio/orio/main/opt_driver.py", line 47, in optimizeCodeFrags
+    cur_seq = self.__optimizeCodeFrag(cf, perf_params)
+
+  File "/disks/large/home/users/shravank/projects/meliora2/Meliora/Orio/orio/main/opt_driver.py", line 120, in __optimizeCodeFrag
+    optimized_code_seq = self.ptuner.tune(cfrag.leader_ann.mod_code,
+
+  File "/disks/large/home/users/shravank/projects/meliora2/Meliora/Orio/orio/main/tuner/tuner.py", line 151, in tune
+    best_perf_params, best_perf_cost = search_eng.search()
+
+  File "/disks/large/home/users/shravank/projects/meliora2/Meliora/Orio/orio/main/tuner/search/search.py", line 128, in search
+    best_coord,best_perf,search_time,runs = self.searchBestCoord(startCoord)
+
+  File "/disks/large/home/users/shravank/projects/meliora2/Meliora/Orio/orio/main/tuner/search/randomlocal/randomlocal.py", line 110, in searchBestCoord
+    perf_costs = self.getPerfCosts(coords)
+
+  File "/disks/large/home/users/shravank/projects/meliora2/Meliora/Orio/orio/main/tuner/search/search.py", line 331, in getPerfCosts
+    new_perf_costs = self.ptdriver.run(test_code, perf_params=perf_params,coord=coord_key)
+
+  File "/disks/large/home/users/shravank/projects/meliora2/Meliora/Orio/orio/main/tuner/ptest_driver.py", line 511, in run
+    if self.__build(perf_params=perf_params, coord=coord):
+
+  File "/disks/large/home/users/shravank/projects/meliora2/Meliora/Orio/orio/main/tuner/ptest_driver.py", line 309, in __build
+    err('orio.main.tuner.ptest_driver:  failed to apply the post-build command: "%s"' % cmd)
+
+  File "/disks/large/home/users/shravank/projects/meliora2/Meliora/Orio/orio/main/util/globals.py", line 349, in err
+    Globals().loggers['TuningLog'].error(errmsg + '\n' + '\n'.join(traceback.format_stack()))
+
+.
+WARNING: orio.module.loop.submodule.tile.transformation: tile size 256 must be greater than the stride value 256; tile index = kkk

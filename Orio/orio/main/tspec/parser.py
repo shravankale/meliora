@@ -3,8 +3,7 @@
 #
 
 import re, sys
-import orio.tool.ZestyParser.Token as Token
-from orio.tool.ZestyParser import *
+from orio.tool.ZestyParser import Tokens
 from orio.main.util.globals import *
 
 #--------------------------------------------------------------------------------
@@ -198,7 +197,7 @@ class TSpecParser:
         # parse the tuning specifications
         try:
             stmt_seq = p.scan(token)
-        except ParseError, e:
+        except ParseError as e:
             err('orio.main.tspec.parser: %s' % e)
 
         # return the statement sequence

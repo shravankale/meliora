@@ -1,0 +1,98 @@
+Printing analysis 'Basic Alias Analysis (stateless AA impl)' for function 'malloc_arrays':
+Pass::print not implemented for pass: 'Basic Alias Analysis (stateless AA impl)'!
+Printing analysis 'Polly - Generate an AST from the SCoP (isl)' for region: 'entry => <Function Return>' in function 'malloc_arrays':
+Printing analysis 'Basic Alias Analysis (stateless AA impl)' for function 'init_input_vars':
+Pass::print not implemented for pass: 'Basic Alias Analysis (stateless AA impl)'!
+Printing analysis 'Polly - Generate an AST from the SCoP (isl)' for region: 'for.body39 => for.inc47' in function 'init_input_vars':
+Printing analysis 'Polly - Generate an AST from the SCoP (isl)' for region: 'for.cond36.preheader => for.end49' in function 'init_input_vars':
+Printing analysis 'Polly - Generate an AST from the SCoP (isl)' for region: 'for.body17 => for.inc29' in function 'init_input_vars':
+Printing analysis 'Polly - Generate an AST from the SCoP (isl)' for region: 'for.cond14.preheader => for.cond32.preheader' in function 'init_input_vars':
+Printing analysis 'Polly - Generate an AST from the SCoP (isl)' for region: 'for.body3 => for.inc7' in function 'init_input_vars':
+Printing analysis 'Polly - Generate an AST from the SCoP (isl)' for region: 'for.cond1.preheader => for.cond10.preheader' in function 'init_input_vars':
+Printing analysis 'Polly - Generate an AST from the SCoP (isl)' for region: 'for.cond1.preheader => for.end49' in function 'init_input_vars':
+Printing analysis 'Polly - Generate an AST of the SCoP (isl)'for.cond1.preheader => for.end49' in function 'init_input_vars':
+:: isl ast :: init_input_vars :: %for.cond1.preheader---%for.end49
+
+if (1)
+
+    {
+      // Loop with Metadata
+      for (int c0 = 0; c0 <= 499; c0 += 1) {
+        // Loop with Metadata
+        for (int c1 = 0; c1 <= 499; c1 += 1)
+          Stmt_for_body3(c0, c1);
+      }
+      // Loop with Metadata
+      for (int c0 = 0; c0 <= 499; c0 += 1) {
+        // Loop with Metadata
+        for (int c1 = 0; c1 <= 499; c1 += 1)
+          Stmt_for_body17(c0, c1);
+      }
+      // Loop with Metadata
+      for (int c0 = 0; c0 <= 499; c0 += 1) {
+        // Loop with Metadata
+        for (int c1 = 0; c1 <= 499; c1 += 1)
+          Stmt_for_body39(c0, c1);
+      }
+    }
+
+else
+    {  /* original code */ }
+
+Printing analysis 'Polly - Generate an AST from the SCoP (isl)' for region: 'entry => <Function Return>' in function 'init_input_vars':
+Printing analysis 'Basic Alias Analysis (stateless AA impl)' for function 'main':
+Pass::print not implemented for pass: 'Basic Alias Analysis (stateless AA impl)'!
+Printing analysis 'Polly - Generate an AST from the SCoP (isl)' for region: 'for.body667 => for.cond665.for.inc687_crit_edge' in function 'main':
+Printing analysis 'Polly - Generate an AST from the SCoP (isl)' for region: 'for.end637 => for.inc687' in function 'main':
+Printing analysis 'Polly - Generate an AST from the SCoP (isl)' for region: 'for.body492 => for.cond490.for.end637_crit_edge' in function 'main':
+Printing analysis 'Polly - Generate an AST from the SCoP (isl)' for region: 'for.body480 => for.end637' in function 'main':
+Printing analysis 'Polly - Generate an AST from the SCoP (isl)' for region: 'for.body480 => for.inc687' in function 'main':
+Printing analysis 'Polly - Generate an AST from the SCoP (isl)' for region: 'for.body480 => for.cond471.for.inc690_crit_edge' in function 'main':
+Printing analysis 'Polly - Generate an AST from the SCoP (isl)' for region: 'for.cond471.preheader => for.inc690' in function 'main':
+Printing analysis 'Polly - Generate an AST from the SCoP (isl)' for region: 'for.cond471.preheader => for.cond456.loopexit' in function 'main':
+Printing analysis 'Polly - Generate an AST from the SCoP (isl)' for region: 'for.cond467.preheader => for.cond456.for.inc696_crit_edge' in function 'main':
+Printing analysis 'Polly - Generate an AST from the SCoP (isl)' for region: 'for.end435 => for.inc696' in function 'main':
+Printing analysis 'Polly - Generate an AST from the SCoP (isl)' for region: 'for.body388 => for.cond386.for.inc427_crit_edge' in function 'main':
+Printing analysis 'Polly - Generate an AST from the SCoP (isl)' for region: 'for.end => for.inc427' in function 'main':
+Printing analysis 'Polly - Generate an AST from the SCoP (isl)' for region: 'for.body52 => for.cond50.for.end_crit_edge' in function 'main':
+Printing analysis 'Polly - Generate an AST from the SCoP (isl)' for region: 'for.body40 => for.end' in function 'main':
+Printing analysis 'Polly - Generate an AST from the SCoP (isl)' for region: 'for.body40 => for.inc427' in function 'main':
+Printing analysis 'Polly - Generate an AST of the SCoP (isl)'for.body40 => for.inc427' in function 'main':
+:: isl ast :: main :: %for.body40---%for.inc427
+
+if (p_0 <= 495 && p_3 + 4 * p_4 <= 30 && p_7 + 32 * p_8 <= 249)
+
+    {
+      Stmt_for_body40_last();
+      if (p_0 >= 16 * p_1 + 64 * p_2 + 7) {
+        // Loop with Metadata
+        {
+          Stmt_for_body52(0);
+          for (int c0 = 1; c0 < -2 * p_3 - 8 * p_4 + (p_0 + 1) / 8; c0 += 1)
+            Stmt_for_body52(c0);
+        }
+      }
+      Stmt_for_end();
+      if (p_0 + 1 >= 16 * p_1 + 64 * p_2 && (p_0 - 7) % 8 >= 1)
+        Stmt_for_body388_lr_ph();
+      if (p_0 + 1 >= 16 * p_1 + 64 * p_2) {
+        // Loop with Metadata
+        for (int c0 = 0; c0 <= ((p_0 - 7) % 8) - 1; c0 += 1)
+          Stmt_for_body388(c0);
+      }
+    }
+
+else
+    {  /* original code */ }
+
+Printing analysis 'Polly - Generate an AST from the SCoP (isl)' for region: 'for.body40 => for.cond31.for.inc430_crit_edge' in function 'main':
+Printing analysis 'Polly - Generate an AST from the SCoP (isl)' for region: 'for.cond31.preheader => for.inc430' in function 'main':
+Printing analysis 'Polly - Generate an AST from the SCoP (isl)' for region: 'for.cond31.preheader => for.inc433' in function 'main':
+Printing analysis 'Polly - Generate an AST from the SCoP (isl)' for region: 'for.cond27.preheader => for.cond16.for.end435_crit_edge' in function 'main':
+Printing analysis 'Polly - Generate an AST from the SCoP (isl)' for region: 'for.cond16.preheader => for.end435' in function 'main':
+Printing analysis 'Polly - Generate an AST from the SCoP (isl)' for region: 'for.cond16.preheader => for.inc699' in function 'main':
+Printing analysis 'Polly - Generate an AST from the SCoP (isl)' for region: 'for.cond12.preheader => for.cond6.for.inc702_crit_edge' in function 'main':
+Printing analysis 'Polly - Generate an AST from the SCoP (isl)' for region: 'for.cond6.preheader => for.inc702' in function 'main':
+Printing analysis 'Polly - Generate an AST from the SCoP (isl)' for region: 'for.cond6.preheader => for.end704' in function 'main':
+Printing analysis 'Polly - Generate an AST from the SCoP (isl)' for region: 'for.body => for.end710' in function 'main':
+Printing analysis 'Polly - Generate an AST from the SCoP (isl)' for region: 'entry => <Function Return>' in function 'main':
