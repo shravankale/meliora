@@ -1,4 +1,14 @@
 
 #folders
 data
+build
+build_old
+cpp_tests
+examples_mel
+examples
+isl
+islpy
+python_tests
+
+#files
 test.tar
